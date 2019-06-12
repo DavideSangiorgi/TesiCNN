@@ -1,0 +1,8 @@
+\BOOKMARK [1][-]{section.1}{Storia}{}% 1
+\BOOKMARK [1][-]{section.2}{Funzione d'attivazione}{}% 2
+\BOOKMARK [1][-]{section.3}{Loss function}{}% 3
+\BOOKMARK [1][-]{section.4}{Ottimizzazione}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Il gradiente complesso ed il calcolo di Wirtinger}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Inputs}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Architettura}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{Funzioni di attivazione}{section.4}% 8
