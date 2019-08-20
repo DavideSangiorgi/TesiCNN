@@ -1,8 +1,25 @@
-\BOOKMARK [1][-]{section.1}{Storia}{}% 1
-\BOOKMARK [1][-]{section.2}{Funzione d'attivazione}{}% 2
-\BOOKMARK [1][-]{section.3}{Loss function}{}% 3
-\BOOKMARK [1][-]{section.4}{Ottimizzazione}{}% 4
-\BOOKMARK [2][-]{subsection.4.1}{Il gradiente complesso ed il calcolo di Wirtinger}{section.4}% 5
-\BOOKMARK [2][-]{subsection.4.2}{Inputs}{section.4}% 6
-\BOOKMARK [2][-]{subsection.4.3}{Architettura}{section.4}% 7
-\BOOKMARK [2][-]{subsection.4.4}{Funzioni di attivazione}{section.4}% 8
+\BOOKMARK [1][-]{section.1}{Abstract}{}% 1
+\BOOKMARK [1][-]{section.2}{Reti neurali}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Storia}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Struttura}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Funzione d'attivazione}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Loss function}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Back propagation}{section.2}% 7
+\BOOKMARK [1][-]{section.3}{Reti neurali a valori complessi}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Storia}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Struttura}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{Funzione d'attivazione}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.4}{Back propagation}{section.3}% 12
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Loss function}{subsection.3.4}% 13
+\BOOKMARK [3][-]{subsubsection.3.4.2}{Il gradiente complesso ed il calcolo di Wirtinger}{subsection.3.4}% 14
+\BOOKMARK [2][-]{subsection.3.5}{Confronto con rete neurale}{section.3}% 15
+\BOOKMARK [1][-]{section.4}{Ottimizzazione}{}% 16
+\BOOKMARK [2][-]{subsection.4.1}{ensemble di reti neurali}{section.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.1.1}{judge}{subsection.4.1}% 18
+\BOOKMARK [3][-]{subsubsection.4.1.2}{ottimizzazione dell'ensemble}{subsection.4.1}% 19
+\BOOKMARK [2][-]{subsection.4.2}{Funzione d'attivazione sticastica}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.3}{regolarizzazione \(forse\)}{section.4}% 21
+\BOOKMARK [1][-]{section.5}{Applicazione delle reti neurali complesse al MRF}{}% 22
+\BOOKMARK [2][-]{subsection.5.1}{introduzione al MRF}{section.5}% 23
+\BOOKMARK [2][-]{subsection.5.2}{MRF con reti neurali a valori reali}{section.5}% 24
+\BOOKMARK [2][-]{subsection.5.3}{MRF con reti neurali a valori complessi}{section.5}% 25
