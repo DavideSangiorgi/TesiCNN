@@ -704,7 +704,8 @@ Mentre per il caso complesso:
  Le tabelle \ref{MNIST1Tab},\ref{Reuters1Tab},\ref{CIFAR-101Tab},\ref{CIFAR-1001Tab} mostrano i risultati per reti neurali con dimensione variabile e budget illimitato per i parametri (esperimento 1). 
  Le tabelle \ref{MNIST2Tab},\ref{Reuters2Tab},\ref{CIFAR-102Tab},\ref{CIFAR-1002Tab} mostrano invece i risultati dell'esperimento 2.
  
- \begin{table}
+ 
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.2\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-5}
@@ -760,7 +761,9 @@ Mentre per il caso complesso:
   \label{MNIST1Tab}
  \end{table}
  
- \begin{table}
+ \newpage
+ 
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.2\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-5}
@@ -816,7 +819,9 @@ Mentre per il caso complesso:
   \label{Reuters1Tab}
  \end{table}
  
- \begin{table}
+ \newpage
+ 
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.2\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-5}
@@ -872,8 +877,9 @@ Mentre per il caso complesso:
   \label{CIFAR-101Tab}
  \end{table}
  
- 
- \begin{table}
+ \newpage
+  
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.2\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-5}
@@ -928,9 +934,10 @@ Mentre per il caso complesso:
   \caption{Tratto da \cite{monning2018evaluation}. Test di accuratezza di reti con $k+2$ layer, ognuno con 64 neuroni (alternando 32 e 64 neuroni nei layer della rete a valori complessi) e un output con $c=100$ neuroni. Esperimento 1}
   \label{CIFAR-1001Tab}
  \end{table}
- 
- 
- \begin{table}
+  
+ \newpage
+  
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.1\textwidth} cp{0.1\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-6}
@@ -989,8 +996,10 @@ Mentre per il caso complesso:
   \caption{Tratto da \cite{monning2018evaluation}. Test di accuratezza di reti con $k+2$ layer, con un budget di 500000 parametri reali. L'output \'e composto da $c=10$ neuroni. Esperimento 2.}
   \label{MNIST2Tab}
  \end{table}
+  
+ \newpage
  
- \begin{table}
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.1\textwidth} cp{0.1\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-6}
@@ -1049,8 +1058,10 @@ Mentre per il caso complesso:
   \caption{Tratto da \cite{monning2018evaluation}. Test di accuratezza di reti con $k+2$ layer, con un budget di 500000 parametri reali. L'output \'e composto da $c=46$ neuroni. Esperimento 2.}
   \label{Reuters2Tab}
  \end{table}
+  
+ \newpage
  
- \begin{table}
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.1\textwidth} cp{0.1\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-6}
@@ -1109,8 +1120,10 @@ Mentre per il caso complesso:
   \caption{Tratto da \cite{monning2018evaluation}. Test di accuratezza di reti con $k+2$ layer, con un budget di 50000 parametri reali. L'output \'e composto da $c=10$ neuroni. Esperimento 2.}
   \label{CIFAR-102Tab}
  \end{table}
+  
+ \newpage
  
- \begin{table}
+ \begin{table}[h]
   \centering
   \begin{tabular}{cp{0.2\textwidth} cp{0.1\textwidth} cp{0.1\textwidth}   cp{0.2\textwidth} cp{0.2\textwidth} cp{0.2\textwidth}}
    \cline{1-6}
@@ -1169,11 +1182,141 @@ Mentre per il caso complesso:
   \caption{Tratto da \cite{monning2018evaluation}. Test di accuratezza di reti con $k+2$ layer, con un budget di 50000 parametri reali. L'output \'e composto da $c=100$ neuroni. Esperimento 2.}
   \label{CIFAR-1002Tab}
  \end{table}
+  
+ Confrontando i diversi risultati ottenuti con le funzioni di attivazione si nota come la funzione identit\'a, ma anche soprattutto la tangente iperbolica, risultino meno performanti nelle reti a valore complesso piuttosto che in quelle a valore reale, mentre la ReLU mantiene una accuratezza molto simile indipendentemente dal modello. 
  
- Confrontando i diversi risultati ottenuti con le funzioni di attivazione si nota come la funzione identit\'a, ma soprattutto la tangente iperbolica risultino meno performanti nelle reti a valore complesso piuttosto che in quelle a valore reale, mentre la ReLU mantiene una accuratezza molto simile indipendentemente dal modello.
+ Questi dati confermano l'affermazione precedente per la quale le reti neurali a valori complessi hanno prestazioni simili o leggermente inferiori nei campi di applicazione nel dominio reale. 
  
- Questi dati confermano l'affermazione precedente per la quale le reti neurali a valori complessi hanno prestazioni simili o leggermente inferiori nei campi di applicazione nel dominio reale. Per dimostrare come invece siano effettivamente migliori nel caso di analisi di segnali esprimibili nel dominio complesso, si fatica a trovare confronti diretti come quelli mostrati in precedenza, ma si trovano in letteratura molti casi di applicazioni di successo. Per citarne alcuni: in \cite{sarroff} vengono utilizzate le reti neurali a valori complessi per rimuovere il rumore sonoro da registrazioni audio lasciando la parte ``parlata''; in \cite{birx1993complex} vengono utilizzate le reti neurali complesse per rilevare difetti nei metalli analizzando le risposte dei materiali agli ultrasuoni; \cite{sawada2003polar} le utilizza per la ``voice processing'' e \cite{yamaki2008singular}  per stimare informazioni su un determinato paesaggio ottenute tramite radar satellitari. Da notare come effettivamente il dominio dell'input analizzato dalle reti neurali nei casi appena citati sia sempre di natura ondulatoria e di conseguenza complessa. Per questo motivo, come gi\'a anticipato in precedenza, qua si propone di applicare le reti neurali a valori complessi per il MRI fingerprinting, che verr\'a trattato nella sezione \ref{MRIsection} pi\'u approfonditamente. 
- Di seguito vengono trattati dei metodi per poter migliorare la generalizzazione e la resistenza all'overfitting della rete neurale.
+ \'E difficile trovare un confronto cos\'i accurato come quello precedente per problemi nel dominio complesso, ma sono presenti esempi in cui la rete neurale a valori complessi \'e risultata pi\'u efficiente di quella a valori reali. 
+ Riporto di seguito i dati trovati, facendo riferimento nelle descrizioni delle tabelle all'esperimento e all'articolo preso in considerazione. Per comodit\'a riporto solo i dati relativi a reti neurali a valori reali e a valori complessi, tralasciando quelli relativi ad altri modelli.
+ 
+ In \cite{trabelsi2017deep} vengono confrontate reti neurali a valori reali e a valori complessi sul problema di trascrizione musicale MusicNet. 
+ In particolare la rete neurale a valori reali tratta il segnale separando la componente reale da quella immaginaria. I risultati di tale esperimento sono riportati in tabella \ref{MusicNetTab}.
+ 
+ \begin{table}[h]
+  \centering
+  \begin{tabular}{l c c|c}
+   \hline
+   \textbf{ARCHITECTURE} & \textbf{FS} & \textbf{PARAMS} & \textbf{AP} \\
+   \hline
+   DEEP, REAL & 11kHz & 10.0M & 69.6\% \\
+   DEEP, COMPLEX & 11kHz & 8.8M & 72.9\% \\
+   \hline
+  \end{tabular}
+  \caption{Tratto da \cite{trabelsi2017deep}. Dati relativi all'esperimento MusicNet. FS \'e il rate di campionamento; params indica il numero di parametri e AP indica la media dei risultati ottenuti.}
+  \label{MusicNetTab}
+ \end{table}
+ 
+ Sempre in \cite{trabelsi2017deep} viene portato avanti un esperimento sullo ``speech spectrum prediction''. Il dataset utilizzato \'e il TIMIT. Come in precedenza per le reti reali il segnale \'e stato scomposto in parte reale e parte immaginaria. I risultati sono mostrati in tabella \ref{SpeechSpectPredTab}
+ 
+ \begin{table}[h]
+  \centering
+  \begin{tabular}{l c c c}
+   \hline
+   \textbf{MODEL} & \textbf{\#PARAMS} & \textbf{MSE (VALIDATION)} & \textbf{MSE (TEST)} \\
+   \hline
+   CONV-LSTM & $\approx$88K & 11.10 & 12.18\\
+   \hline
+   CCONV-LSTM & $\approx$88K & \textbf{10.78} & \textbf{11.90} \\
+   \hline
+  \end{tabular}
+  \caption{Tratto da \cite{trabelsi2017deep}. Per i vari modelli di rete vengono confrontati il numero di parametri e l'errore quadratico medio (MSE), relativo sia al training che al test. In grassetto i risultati migliori. Per CNN si intendono le reti neurali convoluzionari, analoghe a quelle descritte, ma che prevedono una struttura iniziale aggiuntiva.}
+  \label{SpeechSpectPredTab}
+ \end{table}
+ 
+ 
+ In \cite{gao2018enhanced} il problema affrontato \'e quello dell'imaging computazionale. In tabella \ref{SVRTab} vengono riportati i risultati ottenuti in funzione del modello e del SVR (rapporto segnale rumore) applicato.
+ \begin{table}[h]
+  \centering
+  \begin{tabular}{l c c c c c c}
+   \hline
+   \textbf{Methods} & \textbf{RMSE,} & \textbf{RMSE,} & \textbf{RMSE,} & \textbf{RMSE,} & \textbf{RMSE,} & \textbf{Time} \\
+    & \textbf{-10dB} & \textbf{-5dB} & \textbf{0dB} & \textbf{5dB} & \textbf{10dB} & \textbf{needs} \\
+    \hline
+    RV-CNN & 0.0456 & 0.0308 & 0.0262 & 0.0251 & 0.0248 & 0.083s\\
+    \hline
+    CV-CNN & \textbf{0.0434} & \textbf{0.0289} & \textbf{0.0255} & \textbf{0.0247} & \textbf{0.0245} & 0.071s\\
+    \hline
+  \end{tabular}
+  \caption{Tratto da \cite{gao2018enhanced}. Confronto tra la media degli errori reti su un totale di 100 esperimenti.}
+  \label{SVRTab}
+ \end{table}
+ 
+ In \cite{scardapane2018complex} le reti neurali sono confrontate sul dataset di immagini MNIST e la rete neurale a valori reali ha input di dimensione doppia in quanto riceve la parte reale e la parte immaginaria del segnale come due elementi distintidell'input. I risultati sono mostrati in tabella \ref{MNISTTab}.
+ \begin{table}[h]
+  \centering
+  \begin{tabular}{l c}
+   \hline
+   Model & Test Accuracy\\
+   \hline
+   Real-valued NN & (93.39$\pm$0.10)\% \\
+   \hline
+   CVNN (ModReLU) & (95.92 $\pm$ 0.18)\% \\
+   \hline
+   CVNN (Proposed split-KAF) & \textbf{(97.21 $\pm$ 0.34)\%}\\
+   \hline
+  \end{tabular}
+  \caption{Tratto da \cite{scardapane2018complex}. Confronto tra reti neurali a valori reali e a valori complessi sul dataset MNIST. Nel caso citato gli autori hanno testato una particolare funzione d'attivazione proposta da loro e presente nell'ultima riga. Di interesse \'e per\'o il vantaggio che comunque pare avere la rete neurale complessa (seconda riga) su quella reale.}
+  \label{MNISTTab}
+ \end{table}
+ 
+  
+ Da notare come effettivamente il dominio dell'input analizzato dalle reti neurali nei casi appena citati sia sempre di natura ondulatoria e di conseguenza complessa. 
+ Per questo motivo, come gi\'a anticipato in precedenza, in questo documento si propone di applicare le reti neurali a valori complessi per il MRI fingerprinting, che verr\'a trattato nella sezione \ref{MRIsection} pi\'u approfonditamente. 
+ 
+ 
+ Per completezza voglio citare un ultimo esempio, un ultimo confronto, significativo non tanto per i risultati relativi all'accuratezza, ma per i risultati mostrati relativi alla generalizzazione e alla convergenza dei modelli.
+ 
+ In \cite{guberman2016complex} vengono utilizzate reti neurali convoluzionali a valori complessi per l'identificazione di cellule fluorescenti come in figura \ref{FluoCellpng}.
+ \begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.35]{FluoCell.png}
+  \caption{Tratto da \cite{guberman2016complex}. Immagini simulate al computer di cellule fluorescenti che la rete neurale convoluzionale a valori complessi deve identificare.}
+  \label{FluoCellpng}
+ \end{figure}
+ 
+ I risultati ottenuti sono molto buoni e promettenti: infatti anche se l'accuratezza sul set di test \'e praticamente uguale tra rete a valori reali e rete a valori complessi (tabella \ref{FluoAccuracyTab}), le reti a valori complessi soffrono meno di overfitting.
+ \begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+   \hline
+    & Train loss & Train accuracy & Test loss & Test Accuracy \\
+    \hline
+    Complex network & 0.056 & 97.4\% & 0.069 & 97.3\% \\
+    \hline
+    Real network & 0.007 & 99.8\% & 0.145 & 97.5\% \\
+    \hline
+  \end{tabular}
+  \caption{Tratto da \cite{guberman2016complex}. Risultati del modello reale e di quello complesso nel set di trining e di test. Si noti come il test loss della rete reale sia decisamente maggiore rispetto a quello della rete complessa.}
+ \end{table}
+
+ Ci\'o viene mostrato ancora meglio nel confronto effettuato nei grafici \ref{FluoConvergapng} e \ref{FluoConvergbpng} della convergenza delle due reti in funzione del numero delle epochs (per ogni epoch viene effettuato un determinato numero di cicli di train e di test per determinare l'accuratezza).
+ \begin{figure}[h!]
+  \centering
+  \begin{subfigure}[b]{\linewidth}
+   \includegraphics[scale=0.5]{FluoConverga.png}
+   \caption{Tratto da \cite{guberman2016complex}. Convergenza della rete neurale a valori complessi.}
+   \label{FluoConvergapgn}
+  \end{subfigure}
+  \\
+  \begin{subfigure}[b]{\linewidth}
+   \includegraphics[scale=0.5]{FluoConvergb.png}
+   \caption{Tratto da \cite{guberman2016complex}. Convergenza della rete neurale a valori reali.}
+   \label{FluoConvergbpgn}
+  \end{subfigure}
+  \caption{Convergenza delle reti reali e complesse in funzione dei progressi dell'algoritmo. Una epoch \'e il numero di iterazioni in cui il numero totale di esempi scelti \'e uguale alla dimensione dell'insieme di addestramento, in questo caso una epoch \'e di 100 iterazioni. Nella linea blu, la funzione di loss dell'allenamento e nella linea rossa quella del test. Il modello reale soffre di overfitting, mentre il complesso no.}
+ \end{figure}
+ 
+ Bisogna tenere a mente che in \cite{guberman2016complex} viene esplicitata la scelta di confrontare solo i risultati migliori e suppongo che anche per gli altri dati ottenuti sia stata fatta la stessa scelta.
+ Per\'o in \cite{guberman2016complex} si ha la possibilit\'a di capire cosa significhi questa scelta: in figura \ref{FluoConvergAttemptspng} viene mostrato come solo 4 volte su 20 la rete riesce a raggiungere la convergenza desiderata.
+ \begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4]{FluoConvergAttempts.png}
+  \caption{Tratto da \cite{guberman2016complex}. Training ripetuto della rete complessa. Ogni riga rappresenta il training loss in tutte le epochs di una singola prova. Il tasso di apprendimento \'e ridotto dopo 20 epochs, per una convergenza ottimale. Il processo di allenamento \'e instabile e sensibile agli effetti di randomizzazione. Non tutte le prove sono convergenti e, tra queste, la maggior parte non ha raggiunto il minimo globale.}
+ \end{figure}
+
+ 
+ Per poter migliorare questo aspetto, di seguito trattato metodi per poter migliorare la resistenza all'overfitting, ma, ancor pi\'u importante, migliorare la generalizzazione e la ricerca del minimo globale della rete neurale.
 
 
 
