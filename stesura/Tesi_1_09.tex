@@ -13,7 +13,6 @@
 \usepackage{newlfont}
 \usepackage{color}
 
-
 \textwidth=450pt\oddsidemargin=0pt
 
 
@@ -99,7 +98,7 @@ Anno Accademico \textcolor{black}{ 2018/2019}
  Analizzo inoltre delle tecniche utili a migliorare la generalizzazione e rendere le reti neurali a valori complessi una soluzione ancora pi\'u concreta. 
  Studio quindi i miglioramenti introdotti dagli ensemble di reti neurali e dall'applicazione di funzioni d'attivazione stocastiche, che introducono del rumore gaussiano all'interno del modello.
  
- \chapter*{Risonanza magnetica}
+ \chapter{Risonanza magnetica}
  
  L'imaging da risonanza magnetica (MRI) \'e una tecnica utilizzata principalmente in campo medico per produrre immagini di sezioni del corpo umano.
  La MRI \'e basata sui principi della risonanza magnetica nucleare (NMR), una tecnica spettroscopica utilizzata per ottenere informazioni di tipo microscopico, chimico e fisico sulle molecole.
@@ -430,7 +429,7 @@ Anno Accademico \textcolor{black}{ 2018/2019}
  Applicando la rete su questi nuovi input si riesce quindi a stimare l'efficacia della rete neurale.
 
  
- \chapter*{Reti neurali a valori complessi}
+ \chapter{Reti neurali a valori complessi}
  Le reti neurali a valori complessi sono applicate in sempre pi\'u circostanze. 
  Vengono utilizzate per esempio per rilevare difetti nei metalli analizzando le risposte dei materiali agli ultrasuoni \cite{birx1993complex}, nella ``voice processing'' \cite{sawada2003polar} e nell'analisi dei segnali sonar per la stima di informazioni su un determinato paesaggio \cite{yamaki2008singular}.
  
@@ -1330,7 +1329,7 @@ Mentre per il caso complesso:
  Per poter migliorare questo aspetto, di seguito trattato metodi per poter migliorare la resistenza all'overfitting, ma, ancor pi\'u importante, migliorare la generalizzazione e la ricerca del minimo globale della rete neurale.
 
 
- \chapter*{Ottimizzazione}
+ \chapter{Ottimizzazione}
  \section{ensemble di reti neurali}
  Una rete di dimensioni finite raramente apprende completamente un particolare mapping e pu\'o generalizzare male. 
  Aumentare la dimensione o il numero di hidden layer per\'o, il pi\'u delle volte, non porta a nessun miglioramento \cite{soulie1987evaluation} anzi, aumentando la dimensionalit\'a del problema aumenta la possibilit\'a che la rete si stabilizzi lontana dal minimo globale. 
@@ -1597,7 +1596,7 @@ Mentre per il caso complesso:
   \end{table}
 
 
- \section{Funzione d'attivazione sticastica}
+ \section{Funzione d'attivazione stocastica}
  La funzione d'attivazione gioca un ruolo fondamentale nel training delle rete neurali in quanto introduce la non linearit\'a indispensabile per poter approssimare una qualsiasi funzione. 
  Tra le diverse descritte in precedenza ci concentriamo sulla ReLU, in particolare la funzione d'attivazione che sar\'a descritta prende in considerazione il valore ottenuto con la precedente e ci applica un rumore stocastico. 
  In questo modo si riesce a prevenire meglio l'overfitting senza dover intervenire su quanto gi\'a appreso dalla rete durante il training. 
@@ -1801,7 +1800,7 @@ Mentre per il caso complesso:
   \end{table}
  
  
- \chapter*{Applicazione delle reti neurali al problema del MRF}\label{MRIsection}
+ \chapter{Applicazione delle reti neurali al problema del MRF}\label{MRIsection}
  
  Le reti neurali a valori complessi sembrano essere pi\'u performanti rispetto a quelle reali nel caso l'input da analizzare sia naturalmente esprimibile nel campo complesso \ref{CompR-Csection}. 
  Per questo motivo si \'e scelto di studiare in parallelo ai possibili vantaggi e svantaggi della rete neurale a valori complessi, una possibile applicazione nel campo della risonanza magnetica, in particolare nel MRI fingerprinting.
@@ -1853,7 +1852,7 @@ Mentre per il caso complesso:
  In particolare nel caso di segnale pulito, la rete a valori complessi prevale in accuratezza sia su $T_1$ che su $T_2$, mentre prevale solo nell'accuratezza su $T_1$ in caso di segnale con rumore.
 
  
- \chapter*{Conclusioni}
+ \chapter{Conclusioni}
  
  La risonanza magnetica si \'e dimostrata estremamente utile per la diagnosi, la prognosi e la valutazione terapeutica, ma ha lo svantaggio di essere lenta rispetto ad altri strumenti diagnostici. 
  Inoltre \'e generalmente qualitativa: il principale mezzo di informazione utilizzato per caratterizzare una patologia \'e il contrasto tra i tessuti.
