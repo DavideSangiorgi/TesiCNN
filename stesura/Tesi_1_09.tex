@@ -93,8 +93,8 @@ Anno Accademico \textcolor{black}{ 2018/2019}
  Il problema \'e quello di diminuire il tempo di calcolo necessario per determinare i parametri tissutali relativi alla risonanza magnetica effettuata. 
  Il metodo proposto \'e quello dell'utilizzo di reti neurali a valori complessi con input il segnale di risonanza magnetica e con output i valori relativi ai parametri che si vogliono studiare. 
  
- Dopo aver chiarito il concetto di risonanza magnetica, di MRF ed i problemi ad essi associati, introduco le reti neurali, l'architettura, la dinamica e l'apprendimento relativi ad esse. 
- Discuto di seguito i problemi relativi all'introduzione dei numeri complessi nel modello di rete neurale e anche i vantaggi che le reti neurali a valori complessi possono portare, non solo rispetto ai metodi tradizionali, ma anche rispetto a reti neurali a valori reali.
+ Dopo aver chiarito il concetto di risonanza magnetica, di MRF ed i problemi ad essi associati, introduco le reti neurali: l'architettura, la dinamica e l'apprendimento relativi ad esse. 
+ Discuto a seguire i problemi relativi all'introduzione dei numeri complessi nel modello di rete neurale e anche i vantaggi che le reti neurali a valori complessi possono portare, non solo rispetto ai metodi tradizionali, ma anche rispetto a reti neurali a valori reali.
  
  Analizzo inoltre delle tecniche utili a migliorare la generalizzazione e rendere le reti neurali a valori complessi una soluzione ancora pi\'u concreta. 
  Studio quindi i miglioramenti introdotti dagli ensemble di reti neurali e dall'applicazione di funzioni d'attivazione stocastiche, che introducono del rumore gaussiano all'interno del modello.
@@ -104,59 +104,59 @@ Anno Accademico \textcolor{black}{ 2018/2019}
  L'imaging da risonanza magnetica (MRI) \'e una tecnica utilizzata principalmente in campo medico per produrre immagini di sezioni del corpo umano.
  La MRI \'e basata sui principi della risonanza magnetica nucleare (NMR), una tecnica spettroscopica utilizzata per ottenere informazioni di tipo microscopico, chimico e fisico sulle molecole.
  La MRI \'e nata inizialmente come tecnica di imaging tomografico, cio\'e capace di produrre l'immagine di un sottile strato del corpo umano a partire dal segnale NMR.
- Ciascuna sezione \'e composta di vari elementi tridimensionali detti voxel, il cui volume \'e di circa 3 mm3. 
+ Ciascuna sezione \'e composta di vari elementi tridimensionali detti voxel, il cui volume \'e di circa $3mm^3$. 
  L'immagine di risonanza magnetica di una sezione risulter\'a composta da un insieme di elementi bidimensionali chiamati pixel, la cui intensit\'a \'e proporzionale all'intensit\'a del segnale NMR del voxel corrispondente.
  
- Il segnale di risonanza magnetica \'e generato dalla rotazione del vettore magnetizzazione dei protoni, in particolare dei protoni dell'idrogeno che compone l' $\mbox{H}_2\mbox{o}$, molecola comune negli organismi viventi. 
- Normalmente i vettori magnetizzazione sono orientati in maniera casuale, ma se sottoposti a campo magnetico esterno stazionario $B_0$, vengono sottoposti allo stesso momento torcente.
- All'equilibrio, il vettore di magnetizzazione risultante \'e posizionato lungo la direzione del campo magnetico statico $B_0$ ed \'e chiamato magnetizzazione all'equilibrio $M_0$. 
- In questa configurazione, la componente Z del vettore di magnetizzazione $M_Z$ \'e uguale a $M_0$. 
+ Il segnale di risonanza magnetica \'e generato dalla rotazione del vettore magnetizzazione dei protoni, in particolare dei protoni dell'idrogeno che compone l' $\mbox{H}_2\mbox{O}$, molecola comune negli organismi viventi. 
+ Normalmente i vettori magnetizzazione sono orientati in maniera casuale, ma se sottoposti a campo magnetico esterno stazionario $B_0$, subiscono lo stesso momento torcente.
+ All'equilibrio, il vettore di magnetizzazione risultante \'e posizionato lungo la direzione del campo magnetico statico $B_0$ (che \'e per convenzione lungo l'asse $z$) ed \'e chiamato magnetizzazione all'equilibrio $M_0$. 
+ Come appena accennato, in questa configurazione, la componente $z$ del vettore di magnetizzazione $M_Z$ \'e uguale a $M_0$. 
  $M_Z$ \'e conosciuta come magnetizzazione longitudinale. 
  Inoltre, sempre per effetto di $B_0$, l'asse di ciascun protone precede attorno alla direzione di $B_0$ con frequenza che \'e caratteristica di ogni elemento atomico e viene denominata frequenza di $Larmor$.
  
- I protoni utilizzati per produrre immagini RM sono quelli dell'idrogeno che, naturalmente, abbondano nei tessuti viventi, in particolare per via delle molecole di acqua.
+ I protoni utilizzati per produrre immagini RM sono principalmente quelli dell'idrogeno che, naturalmente, abbondano nei tessuti viventi, in particolare per via delle molecole di acqua.
  Per mettere in risonanza i protoni dell'idrogeno si invia un'onda radio con frequenza pari alla frequenza di Larmor per l'idrogeno.
- Inviando l'impulso di radiofrequenza (RF) si determina la sincronizzazione dei protoni nella stessa fase di precessione generando un vettore di magnetizzazione trasversale, che ruota nel piano xy.
- Una volta cessato l'impulso RF si verifica la progressiva desincronizzazione della precessione dei protoni, con conseguente decadimento della magnetizzazione trasversale ed il ritorno al livello energetico inferiore da parte dei protoni che avevano subito l'inversione 180.
- In ambedue i casi si verifica il fenomeno chiamato rilassamento, durante il quale si generano impulsi (dati dall'oscillazione della magnetizzazione) misurabili tramite la bobina rice-trasmittente (la stessa bobina che in precedenza ha generato l'impulso RF).
+ Inviando l'impulso di radiofrequenza (RF) si determina la sincronizzazione dei protoni nella stessa fase di precessione generando un vettore di magnetizzazione trasversale, che ruota nel piano $xy$.
+ 
+ Una volta cessato l'impulso RF si verifica la progressiva desincronizzazione della precessione dei protoni, con conseguente decadimento della magnetizzazione trasversale ed il ritorno al livello energetico inferiore da parte dei protoni che avevano subito l'inversione $180^{\circ}$.
+ In ambedue i casi si verifica il fenomeno chiamato rilassamento, durante il quale si generano impulsi dati dall'oscillazione della magnetizzazione e misurabili tramite la bobina rice-trasmittente (la stessa bobina che in precedenza ha generato l'impulso RF).
  Il rilassamento avviene con due costanti di tempo distinte.
- Il tempo di rilassamento spin-reticolo T1 \'e relativo al ritorno all'equilibrio della magnetizzazione longitudinale. 
+ Il tempo di rilassamento spin-reticolo $T_1$, che \'e relativo al ritorno all'equilibrio della magnetizzazione longitudinale. 
  L'equazione che descrive questo fenomeno in funzione del tempo t \'e:
  \begin{equation}
   M_Z = M_0 ( 1 - e^{-t/T_1} )
  \end{equation}
- Se il vettore di magnetizzazione ha subito un impulso RF 180, gradualmente ritorner\'a alla sua posizione di equilibrio sull'asse +Z ad una velocit\'a regolata dal T1, seguendo l'andamento:
+ Se il vettore di magnetizzazione ha subito un impulso RF $180^{\circ}$, gradualmente ritorner\'a alla sua posizione di equilibrio sull'asse $+z$ ad una velocit\'a regolata dal $T_1$, seguendo l'andamento:
  \begin{equation}
   M_Z = M_0 ( 1 - 2e^{-t/T_1} )
  \end{equation}
- Dopo l'impulso RF la componente della magnetizzazione sul piano xy comincia a perdere fase poich\'e ognuno dei pacchetti di spin che la costituiscono \'e sottoposto ad un campo magnetico leggermente diverso e ruota ad una propria frequenza di Larmor. 
- Pi\'u trascorre il tempo, maggiore \'e la differenza di fase e minore la componente sul piano xy della magnetizzazione:
+ Dopo l'impulso RF la componente della magnetizzazione sul piano $xy$ comincia a perdere fase poich\'e ognuno dei pacchetti di spin che la costituiscono \'e sottoposto ad un campo magnetico leggermente diverso e ruota ad una propria frequenza di Larmor. 
+ Pi\'u trascorre il tempo, maggiore \'e la differenza di fase e minore la componente sul piano $xy$ della magnetizzazione:
  \begin{equation}
   M_{xy} = M_{xy_0} e^{-t/T_2}
  \end{equation}
- I fattori che contribuiscono al decadimento della magnetizzazione trasversale sono le interazioni molecolari (che portano ad un effetto molecolare detto T2 puro) e le variazioni del campo magnetico statico $B_0$ (che portano ad un effetto detto T2 di disomogeneit\'a di campo).
+ I fattori che contribuiscono al decadimento della magnetizzazione trasversale sono le interazioni molecolari (che portano ad un effetto molecolare detto $T_2$ puro) e le variazioni del campo magnetico statico $B_0$ (che portano ad un effetto detto $T_{2_{disomog}}$ di disomogeneit\'a di campo).
  La combinazione di questi due fattori \'e quella che realmente si verifica nel decadimento della magnetizzazione trasversale.
  
- La costante di tempo "combinata" \'e chiamata T2 star ed \'e contraddistinta dal simbolo T2*. La relazione tra il T2 derivante da processi molecolari e quello dovuto a disomogeneit\'a di campo magnetico \'e la seguente:
+ La costante di tempo "combinata" \'e chiamata $T_2$ star ed \'e contraddistinta dal simbolo $T_2*$. La relazione tra il $T_2$ derivante da processi molecolari e quello dovuto a disomogeneit\'a di campo magnetico \'e la seguente:
 \begin{equation}
  1 / T_2^* = 1 / T_2 + 1 / T_{2_{disomog}}
 \end{equation}
 
-Il ritorno all'equilibrio del vettore di magnetizzazione di un sistema di spin che ha assorbito un impulso RF genera un segnale che pu\'o essere rivelato.
-La rotazione del vettore di magnetizzazione trasversale attorno alla direzione del campo magnetico statico $B_0$ induce una corrente elettrica nella bobina posizionata attorno all'asse X. 
-Riportando in un grafico la corrente in funzione del tempo si ottiene un'onda sinusoidale che decadr\'a naturalmente secondo la costante di tempo T2* dovuta alla perdita di fase dei pacchetti di spin. 
-Il segnale originato dal "libero" decadimento della magnetizzazione trasversale \'e chiamato FID (Free Induction Decay).
+ Il ritorno all'equilibrio del vettore di magnetizzazione di un sistema di spin che ha assorbito un impulso RF genera un segnale che pu\'o essere rivelato.
+ La rotazione del vettore di magnetizzazione trasversale attorno alla direzione del campo magnetico statico $B_0$ induce una corrente elettrica nella bobina posizionata attorno all'asse X. 
+ Riportando in un grafico la corrente in funzione del tempo si ottiene un'onda sinusoidale che decadr\'a naturalmente secondo la costante di tempo $T_2*$ dovuta alla perdita di fase dei pacchetti di spin. 
+ Il segnale originato dal "libero" decadimento della magnetizzazione trasversale \'e chiamato FID (Free Induction Decay).
 
-Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo di attivazione (sequenza di impulsi) \'e possibile produrre un segnale NMR che abbia delle specifiche caratteristiche e che permetta quindi di ottenere immagini pesate in T1 o in T2.
+ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo di attivazione (sequenza di impulsi) \'e possibile produrre un segnale NMR che abbia delle specifiche caratteristiche e che permetta quindi di ottenere immagini pesate in $T_1$ o in $T_2$.
  
  \section{introduzione al MRF}
  
  La risonanza magnetica ha lo svantaggio di essere lenta rispetto ad altri strumenti diagnostici ed \'e generalmente qualitativa: il principale mezzo di informazione utilizzato per caratterizzare una patologia \'e il contrasto tra i tessuti, piuttosto che le misurazioni assolute dei singoli tessuti. 
  Sebbene queste informazioni si siano dimostrate estremamente utili per la diagnosi, la prognosi e la valutazione terapeutica, la mancanza di quantificazione limita la valutazione obiettiva, porta a una variabilit\'a nell'interpretazione e potenzialmente limita l'utilit\'a della tecnologia in alcuni scenari clinici. 
  
- Per superare questa limitazione sono stati compiuti sforzi significativi nello sviluppo di approcci quantitativi in grado di misurare le propriet\'a dei tessuti come i tempi di rilassamento T1 e T2. 
- La quantificazione delle propriet\'a dei tessuti consente ai medici di distinguere meglio tra tessuto sano e patologico in senso assoluto, rende pi\'u semplice il confronto oggettivo di esami diversi e potrebbe essere pi\'u rappresentativo dei cambiamenti rispetto all'imaging ponderato standard. 
- Si ottiene quindi il vantaggio di una minore soggettivit\'a dei risultati, che pu\'o aiutare nella diagnosi, in particolare nella caratterizzazione dei tessuti.  
+ Per superare questa limitazione sono stati compiuti sforzi significativi nello sviluppo di approcci quantitativi in grado di misurare le propriet\'a dei tessuti come i tempi di rilassamento $T_1$ e $T_2$. 
+ La quantificazione delle propriet\'a dei tessuti consente ai medici di distinguere meglio tra tessuto sano e patologico in senso assoluto, rende pi\'u semplice il confronto oggettivo di esami diversi e potrebbe essere pi\'u rappresentativo dei cambiamenti rispetto all'imaging ponderato standard.  
  
  Queste tecniche si basano sull'acquisizione di pi\'u immagini, analizzando un solo parametro per volta, ognuna quindi con uno specifico parametro di acquisizione che varia, mentre le altre sono mantenute costanti. 
  Inoltre, la magnetizzazione deve ripristinare lo stesso stato iniziale per ogni ciclo. 
@@ -165,13 +165,20 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  
  Come appena accennato, la maggior parte degli approcci MR attuali consente la misurazione delle propriet\'a dei tessuti, ma sono relativamente lenti e generalmente forniscono una sola propriet\'a alla volta. 
  Inoltre, la caratterizzazione delle patologie dipende spesso non solo da una singola propriet\'a, ma da una combinazione di propriet\'a da valutare insieme. 
- In tempi recenti sono state quindi proposte diverse tecniche per abbreviare i tempi di acquisizione e per fornire al contempo misure combinate di T1 e T2. 
+ In tempi recenti sono state quindi proposte diverse tecniche per abbreviare i tempi di acquisizione e per fornire al contempo misure combinate di $T_1$ e $T_2$. 
  La tecnica che approfondisco \'e il Magnetic Resonance Fingerprinting (MRF). 
  
  Il MRF \'e un potente strumento diagnostico, prognostico e di valutazione della terapia che, grazie alla sua natura versatile rispetto ad altre modalit\'a di imaging, consente di sondare diversi parametri contemporaneamente. 
  Tuttavia permangono importanti ostacoli all'adozione clinica, in particolare una necessit\'a di una quantificaizione al contempo rapida e accurata. 
- Il MRF cambia completamente il modo in cui viene eseguita la risonanza magnetica quantitativa con un approccio completamente divesto da quello delle tecniche convenzionali. 
- Questa tecnica mira a fornire misurazioni simultanee di pi\'u parametri come T1, T2 densit\'a di spin relativa, disomogeneit\'a $\mbox{B}_0$ ecc., utilizzando un'unica acquisizione, efficiente in termini di tempo. 
+ Il MRF mira a fornire misurazioni simultanee di pi\'u parametri come $T_1$, $T_2$ densit\'a di spin relativa, disomogeneit\'a $\mbox{B}_0$ ecc., utilizzando un'unica acquisizione, efficiente in termini di tempo; ne si riassumono i passaggi fondamentali in figura \ref{MRFpng}.
+ 
+ \begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.5]{MRF.png}
+  \caption{In alto \'e mostrata la generazione del dizionario, mentre in basso si ha la misura acquisita. Viene poi effettuato il matching per determinare quale segnale del dizionario si avvicina a quello effettivamente misurato.}
+  \label{MRFpng}
+ \end{figure}
+ 
  
  Invece di eseguire un'acquisizione con tutti i parametri costanti tranne uno, il MRF si affida a parametri di acquisizione deliberatamente variabili in modo pseudocasuale cosicch\'e ciascun tessuto generi un'evoluzione del segnale unica. 
  \'E possibile simulare le evoluzioni del segnale utilizzando diversi modelli fisici per un'ampia variet\'a di combinazioni di parametri tissutali; queste simulazioni sono poi raccolte in un database chiamato dizionario. 
@@ -181,37 +188,38 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  Questo processo \'e analogo a quello di identificazione delle impronte digitali utilizzato dagli esperti forensi per identificare le persone di interesse: l'evoluzione del segnale acquisito \'e unica per ciascun tessuto e pu\'o essere vista come l'impronta digitale raccolta che deve essere identificata. 
  Il dizionario \'e equivalente al database in cui tutte le impronte digitali sono memorizzate, insieme a tutte le informazioni relative a ciascuna persona: contiene tutte le evoluzioni fisiologicamente possibili del segnale che possono essere osservate dall'acquisizione e che consente di riconoscere il tessuto all'interno di ogni voxel. 
  Nel caso forense, ogni impronta digitale indica l'identificazione con una caratteristica della persona associata e quindi peso, altezza, data di nascita... 
- Analogamente, nel caso del MRF, ogni impronta digitale del dizionario corrisponde a determinati valori di T1, T2, densit\'a di spin relativa, $\mbox{B}_0$, diffusione, etc... 
+ Analogamente, nel caso del MRF, ogni impronta digitale del dizionario corrisponde a determinati valori di $T_1$, $T_2$, densit\'a di spin relativa, $\mbox{B}_0$, diffusione, etc... 
  Di conseguenza il MRF, come il processo di identificazione forense delle impronte digitali, \'e efficace solo quando \'e disponibile un database sufficientemente grande da contenere tutti i potenziali candidati, ma la differenza principale \'e data dal tempo a disposizione. 
- Cercando, nel caso clinico, di accorciare quest'ultimo non \'e possibile simulare tutti i casi possibili, di conseguenza vengono selezionati quelli di maggiore interesse per trovare un compromesso tra precisione e velocit\'a di ricostruzione. 
+ Cercando, nel caso clinico, di accorciare quest'ultimo non \'e possibile simulare tutti i casi possibili e vengono selezionati quelli di maggiore interesse per trovare un compromesso tra precisione e velocit\'a di ricostruzione. 
  
  In MRF il dizionario \'e generato su un computer utilizzando algoritmi che simulano il comportamento di spin durante l'acquisizione e quindi prevedono l'evoluzione realistica del segnale. 
  Solitamente, per simulare i vari effetti della sequenza di acquisizione sugli spin, dato un insieme di parametri tissutali di interesse, vengono utilizzate le equazioni di Bloch. 
  Le informazioni che possono essere recuperate con MRF sono quindi correlate al modo e agli effetti fisici simulati. 
  
- Un aspetto critico del dizionario \'e la sua dimensione: per garantire l'identificazione di ogni possibile parametro tissutale presente nell'acquisizione \'e necessario simulare un'ampia combinazione di T1, T2 (e gli altri parametri che si vogliono studiare). 
+ Un aspetto critico del dizionario \'e la sua dimensione: per garantire l'identificazione di ogni possibile parametro tissutale presente nell'acquisizione \'e necessario simulare un'ampia combinazione di $T_1$, $T_2$ (e gli altri parametri che si vogliono studiare). 
  Un dizionario TrueFISP standard porta un totale di 363624 combinazioni possibili e include i valori dei parametri che si trovano comunemente nel corpo umano. 
  Il calcolo di un tale dizionario per 1000 punti temporali richiede circa 2.5 minuti su un computer standard utilizzando uno script basato su C++ e raggiunge i 2.5GB di dimensione. 
  Un ulteriore aumento delle dimensioni del dizionario e/o risoluzione aumenterebbe l'accuratezza delle mappe ottenute a spese per\'o di un aumento dei tempi di ricostruzione e dei requisiti di memoria. 
+ 
  La simulazione di un'acquisizione FISP viene calcolata in modo diverso rispetto a quella sopra descritta e il processo di simulazione tramite equazioni di Bloch pu\'o richiedere pi\'u tempo. 
- La sequenza di FISP \'e meno sensibile agli effetti di risonanza rispetto all'acquisizione TrueFISP, quindi il dizionario corrispondente include solo i tempi di rilassamento T1 e T2 come parametri di interesse. 
- Ci\'o comporta 18838 voci di dizionario che possono essere calcolate in circa 8 minuti su un computer standard e genera un dizonario di circa 1.2GB. 
+ La sequenza di FISP \'e meno sensibile agli effetti di risonanza rispetto all'acquisizione TrueFISP, quindi il dizionario corrispondente include solo i tempi di rilassamento $T_1$ e $T_2$ come parametri di interesse. 
+ Ci\'o comporta solo 18838 voci di dizionario che possono essere calcolate in circa 8 minuti su un computer standard e genera un dizonario di circa 1.2GB. 
  Indipendentemente dalla sequenza utilizzata, il dizionario viene calcolato una sola volta, prima dell'acquisizione. 
  
  Dopo l'acquisizione dei dati, l'impronta digitale di ciascun voxel viene normalizzata e confrontata con tutte le voci del dizionario, anch'esse normalizzate, per identificare il tessuto di un dato voxel. 
  La voce del dizionario che meglio corrisponde all'impronta digitale acquisita \'e considerata una corrispondenza positiva, il che significa che il tessuto rappresentato nel voxel \'e stato identificato. 
  Tutti i parametri noti relativi a quel segnale possono quindi essere recuperati dal dizionario e assegnati al voxel. 
  L'unicit\'a dei diversi componenti del segnale e l'accuratezza con cui viene simulato il dizionario sono due componenti cruciali per la corretta stima dei parametri del tessuto. 
+ 
  Sono stati sviluppati diversi metodi per confrontare la misurazione con i dati del dizionario. 
  La versione pi\'u semplice della corrispondenza viene eseguita prendendo il prodotto scalare tra il segnale voxel e ciascun segnale di impronta digitale simulato. 
  La voce che restituisce il valore pi\'u alto \'e considerata quella che rappresenta al meglio le propriet\'a del tessuto e i rispettivi parametri sono assegnati al voxel. 
- \'E stato dimostrato che il prodotto scalare \'e un'operazione robusta ed \'e in grado di classificare correttamente i tessuti anche in caso di sottocampionamento o anche in presenta di una qualit\'a limitata. 
+ \'E stato dimostrato che il prodotto scalare \'e un'operazione robusta ed \'e in grado di classificare correttamente i tessuti anche in caso di sottocampionamento o anche in presenta di una qualit\'a limitata del segnale. 
  La corrispondenza diretta con il prodotto scalare \'e accurata, ma possono essere necessari fino a 160 secondi per abbinare una porzione 2D con dimensione 128x128, con 1000 punti temporali con un  dizionario che conta 363624 voci. 
  Allo stesso modo ci vogliono circa 30 secondi per abbinare un'immagine 2D con 256x256 voxel, 1000 punti temporali e 18838 voci del dizionario per una ricostruzione FISP. 
  
  La corrispondenza pu\'o essere potenzialmente accelerata comprimendo il dizionario, riducendo cos\'i il numero totale di confronti che devono essere eseguiti. 
- \'E stato dimostrato che la decomposizione a valore singolare (SVD) pu\'o essere applicata per comprimere il dizionario nella dimensione temporale e ridurre il tempo di corrispondenza di un fattore 3,4 volte per un dizionario TrueFISP e fino a 4.8 volte per un dizionario FISP. 
- La compressione del dizionario basato su SVD ha una riduzione della precisione dei parametri stimati inferiore al 2\%. 
+ \'E stato dimostrato \cite{mcgivney2014svd} che la decomposizione a valore singolare (SVD) pu\'o essere applicata per comprimere il dizionario nella dimensione temporale e ridurre il tempo di corrispondenza di un fattore 3.4 per un dizionario TrueFISP e fino a 4.8 volte per un dizionario FISP. 
  In questo approccio, il dizionario viene proiettato in un sottospazio di dimensione inferiore attraversato dai primi 25-200 vettori singolari ottenuti dall'SVD. 
  L'impronta digitale acquisita viene proiettata sullo stesso sottospazio e la corrispondenza viene eseguita utilizzando il segnale proiettato e il dizionario compresso. 
  In questo modo si ruduce il numero di calcoli e di conseguenza anche il tempo di calcolo finale nonostante l'operazione aggiuntiva di proiezione dei dati nel sottospazio. 
@@ -220,20 +228,17 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  \'E stato sviluppato un algoritmmo di corrispondenza dei gruppi in cui le voci del dizionario con forti correlazioni sono raggruppate insieme e viene generato un nuovo segnale che rappresenta al meglio il gruppo. 
  L'abbinamento \'e quindi suddiviso in due fasi: all'inizio  l'impronta digitale acquisita viene abbinata al segnale rappresentativo di ciascun gruppo e vengono presi in considerazione solo i gruppi che restituiscono la massima correlazione. 
  Quindi la corrispondenza viene utilizzata per ritrovare il miglior matching tra l'impronta digitale e le voci del dizionario associate ai gruppi prima selezionati. 
- Questo algoritmo riduce la velocit\'a di calcolo della corrispondenza di un ordine di grandezza rispetto alla compressione SVD e due oridini di grandezza rispetto alla corrispondenza diretta senza perdita significativa nella qualit\'a della corrispondenza. 
- La tecnica del MRF viene riassunta nell'immagine \ref{MRFpng}.
+ Questo algoritmo aumenta la velocit\'a di calcolo della corrispondenza di un ordine di grandezza rispetto alla compressione SVD e due oridini di grandezza rispetto alla corrispondenza diretta senza perdita significativa nella qualit\'a. 
  
- \begin{figure}[h!]
-  \centering
-  \includegraphics[scale=0.5]{MRF.png}
-  \caption{In alto \'e mostrata la generazione del dizionario, mentre in basso si ha la misura effettuata. Viene poi effettuato il matching per determinare quale segnale del dizionario si avvicina a quello effettivamente misurato.}
-  \label{MRFpng}
- \end{figure}
+ Per evitare di limitare a priori la precisione riducendo la dimensione del dizionario, si possono utilizzare le reti neurali.
+ In questo documento analizzo quindi la possibile applicazione di reti neurali a valori complessi al problema del matching in MRF.
+ Prima di affrontare questo argomento, introduco il concetto di rete neurale e cerco di avvalorare la tesi secondo cui, introducendo i numeri complessi all'interno del modello di rete, ne si migliori l'efficacia, l'accuratezza e la resistenza al rumore nei problemi definiti nel dominio complesso, proprio come l'analisi di segnale NMR.
+ 
  
  
  \chapter{Reti neurali}  
  Il caso pi\'u semplice di rete neurale \'e il percettrone mostrato in figura \ref{perceptronpng}, introdotto da Rosenblatt nel 1958 \cite{rosenblatt1958perceptron}. 
- Con esso, senza ancora introdurre alcuna funzione di attivazione (di cui spiego il ruolo nel capitolo seguente), si possono gi\'a rappresentare tutte le funzioni che sono linearmente separabili come l'AND, l'OR, il NAND o lo XOR. 
+ Con esso, senza ancora introdurre alcuna funzione di attivazione (di cui spiego il ruolo nella sezione successiva), si possono gi\'a rappresentare tutte le funzioni che sono linearmente separabili. 
  In figura \ref{NeuralNetworkpng} viene mostrata invece la rete neurale, dove il percettrone \'e l'elemento base e ricorsivo della rete. 
  
  L'idea della struttura nasce dalla ricerca di creare un algoritmo che lavori in modo analogo al cervello umano, costituito da unit\'a fondamentali chiamate neuroni, fortemente interconnessi tra loro. 
@@ -249,13 +254,13 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.35]{NeuralNetwork.png}
-  \caption{Struttura di una rete neurale. Ogni neurone definito dal cerchio arancione si comporta in modo analogo al percettrone visto in precedenza, con la differenza che l' ``output'' viene nuovamente combinato, come se fosse uno dei neuroni di input del layer successivo. L'operazione si ripete per il numero di layer, fino a giungere all'output della rete. Continuando l'analogia con la figura \ref{perceptronpng}, i pesi $w_i$ non sono segnati esplicitamente, ma ne viene associato uno ad ognuno dei collegamenti tra neuroni graficati con le linee nere e cos\'i vale anche per le funzioni d'attivazione associate ai cerchi arancioni: solitamente viene utilizzata la stessa per tutti i neuroni, ma ci sono esempi di lavori in cui si \'e preferito applicare una funzione d'attivazione diversa, per esempio, ai neuroni che costituiscono l'output rispetto a tutti gli altri.}
+  \caption{Struttura di una rete neurale. Ogni neurone definito dal cerchio arancione si comporta in modo analogo al percettrone visto in precedenza, con la differenza che l' ``output'' viene nuovamente combinato, come se fosse uno dei neuroni di input del layer successivo. L'operazione si ripete per il numero di layer della rete, fino a giungere all'output. Continuando l'analogia con la figura \ref{perceptronpng}, i pesi $w_i$ non sono segnati esplicitamente, ma ne viene associato uno ad ognuno dei collegamenti tra neuroni graficati con le linee nere e cos\'i vale anche per le funzioni d'attivazione associate ai cerchi arancioni: solitamente viene utilizzata la stessa per tutti i neuroni, ma ci sono esempi di lavori in cui si \'e preferito applicare una funzione d'attivazione diversa, per esempio, ai neuroni che costituiscono l'output rispetto a tutti gli altri.}
   \label{NeuralNetworkpng}
  \end{figure}
 
  \section{Struttura} 
  Partendo dal caso pi\'u semplice mostrato in figura \ref{perceptronpng} si visualizzano gli elementi fondamentali che costituiscono una rete neurale. 
- L'input $x$ \'e composto da un determinato numero di ``neuroni'' ed \'e da essi che il segnale comincia a propagarsi. 
+ L'input $x$ \'e composto da un determinato numero di ``neuroni'' ed \'e da essi che il segnale, che chiamer\'o $o$, comincia a propagarsi. 
  Ogni unit\'a che costituisce l'input \'e collegato con il neurone del layer centrale, propagando quindi il segnale. 
  Ad ogni collegamento si associa un peso ($w_1$ e $w_2$ in figura \ref{perceptronpng}) che determina l'influenza del ``neurone'' precedente nella propagazione del segnale e una eventuale funzione di attivazione ($f(e)$ in figura \ref{perceptronpng}) viene applicata al segnale finale per introdurre la non linearit\'a nel sistema, definendo quindi il valore finale del percettrone del layer centrale. 
  Nel caso del percettrone tale valore pu\'o essere direttamente l'output a meno di eventuali fattori moltiplicativi, altrimenti, nelle reti come in figura \ref{NeuralNetworkpng} tale processo viene poi ripetuto di layer in layer fino ad arrivare all'output della rete.
@@ -283,7 +288,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
   
   \item Sigmoidi:
     \begin{equation}
-     f(x) = \frac{1}{1+e^{-x}};
+     f(x) = \frac{1}{1+e^{-x}}; \label{sigmoid}
     \end{equation}
 
   
@@ -318,7 +323,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
     
  \end{itemize}
  
- Passando all'approssimare funzioni pi\'u complesse si introduce la rete neurale in figura \ref{NeuralNetworkpng}, in cui ogni elemento di ogni layer si comporta in modo analogo al percettrone.
+ Passando all'approssimare funzioni pi\'u complesse, si introduce la rete neurale in figura \ref{NeuralNetworkpng}, in cui ogni elemento di ogni layer si comporta in modo analogo al percettrone.
 
  
  \section{Dinamica}
@@ -337,7 +342,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  \section{Apprendimento}
  
  La definizione di una rete neurale si completa introducendo quello che \'e l'aspetto principale di questo algoritmo: l'apprendimento. 
- La rete neurale apprende dagli esempi contenuti nel set di training $\tau = \{ z_1, \cdots ,z_n \} $. Il training set differisce a seconda che l'apprendimento sia supervisionato: $\tau = \{ (x_1,\widehat{y}_1), \cdots , (x_n,\widehat{y}_n)\}$ o non supervisionato: $\tau = \{x_1,\cdots,x_n\}$.
+ La rete neurale apprende dagli esempi contenuti nel set di training $\tau = \{ z_1, \cdots ,z_n \} $. Il set di training differisce a seconda che l'apprendimento sia supervisionato: $\tau = \{ (x_1,\widehat{y}_1), \cdots , (x_n,\widehat{y}_n)\}$ o non supervisionato: $\tau = \{x_1,\cdots,x_n\}$.
  Nel caso di apprendimento supervisionato si ha a disposizione un numero di casi etichettati, di conseguenza, una volta dati in analisi alla rete, si riesce a quantificare l'errore della rete confrontando l'output con l'etichetta a disposizione. 
  In questo caso (che \'e anche quello che viene approfondito di seguito) si riesce ad agire in modo diretto sui parametri della rete. 
  L'apprendimento non supervisionato prevede invece che le informazioni inserite all'interno della rete non siano codificate, dovr\'a essere essa stessa, quindi, a catalogare tutte le informazioni in proprio possesso e organizzarle.
@@ -345,7 +350,8 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  L'apprendimento \'e un processo di modifiche progressive effettuate ai parametri della rete (principalmente i pesi, ma, come visto pocanzi, anche le funzioni di attivazione possono avere parametri da includere nell'apprendimento). 
  Lontano dall'essere un metodo di memorizzazione dei dati del set di training, si suppone che le regole imparate in questo modo riescano a generalizzare il problema, permettendo alla rete di catalogare anche input mai visti in precedenza.
  
- Il processo di modifica dei parametri, nel caso di apprendimento supervisionato, avviene attraverso la back-propagation. Descrivo di seguito come avviene.
+ Il processo di modifica dei parametri, nel caso di apprendimento supervisionato, avviene attraverso la back-propagation. 
+ Descrivo di seguito come avviene.
  
  Dato l'output $y_i$ della rete, si definisce una funzione di costo, per esempio:
  \begin{equation}
@@ -389,11 +395,13 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
                        \left( \sum_{i \in L_{k+1}} w_ij \delta_i \right) \dot{f}_j(a_j) & \mbox{se} \;\; j \in L_k \;\; \mbox{dove} \;\; k = l-1,\cdots,0
                       \end{cases}
  \end{equation}
- allora possiamo generalizzare la correzione da applicare ad un peso di un layer qualsiasi come:
+ possiamo allora generalizzare la correzione da applicare ad un peso di un layer qualsiasi come:
  \begin{equation}
   \Delta w_{jk} = \eta \delta_j o_k
  \end{equation}
-
+ 
+ Nella seguente immagine si pu\'o visualizzare il procedimento appena descritto.
+ 
  \begin{figure}[h!]
   \centering
   \begin{subfigure}[b]{0.45\linewidth}
@@ -418,7 +426,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
   \end{subfigure}
   \caption{Utilizzando la nomenclatura introdotta in questo capitolo si visualizzano i valori di $\delta_j$ dovuti alla back propagation, rispettando l'effettivo ordine in cui vengono calcolati.}
  \end{figure}
- Volendo il pi\'u delle volte definire la percentuale di successo della rete e avendo solitamente un set finito $\{(x_1,\widehat{y}_1), \cdots , (x_N,\widehat{y}_N)\}$, si sceglie il set di training con $n<N$ per poter utilizzare gli esempi rimanenti come set di convalida $\zeta = \{(x_{n+1},\widehat{y}_{n+1}), \cdots , (x_N,\widehat{y}_N)\}$. 
+ Volendo il pi\'u delle volte definire la percentuale di successo della rete e avendo solitamente un set finito $\{(x_1,\widehat{y}_1), \cdots , (x_N,\widehat{y}_N)\}$, si sceglie il set di training con $n<N$ per poter utilizzare gli esempi rimanenti come set di convalida o set di test $\zeta = \{(x_{n+1},\widehat{y}_{n+1}), \cdots , (x_N,\widehat{y}_N)\}$. 
  Applicando la rete su questi nuovi input si riesce quindi a stimare l'efficacia della rete neurale.
 
  
@@ -464,7 +472,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
   h &= f\left(W^{\left(h\right)}x+b^{\left(h\right)}\right)\\
   y &= W^{\left(o\right)}x+b^{\left(o\right)}
  \end{align}
- con $\theta = \left \{ W^{\left(h\right)}, \ W^{\left(o\right)}, \ b^{\left(h\right)}, \ b^{\left(o\right)}\right \}$ sono i parametri del modello. Definendo $M$ il numero dei nodi dell'input e $N$ il numero dei nodi dell'output, avremo:
+ con $\theta = \left \{ W^{\left(h\right)}, \ W^{\left(o\right)}, \ b^{\left(h\right)}, \ b^{\left(o\right)}\right \}$che rappresenta i parametri del modello. Definendo $M$ il numero dei nodi dell'input e $N$ il numero dei nodi dell'output, avremo:
  \begin{equation}
   \begin{matrix}
    W^{\left( h\right) } \in R^{M\times M} & or & W^{\left( o\right) } \in C^{M\times M}\\
@@ -590,7 +598,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  Se applichiamo le condizioni di Cauchy-Riemann alla derivata di $f$ in $\overline{z}$ \ref{derivatafzcon} notiamo che effettivamente essa si annulla. 
  Le funzioni olomorfe quindi non dipendono esplicitamente da $\overline{z}$. 
  Brandwood dimostr\'o che l'annullarsi di \ref{derivatafz} o \ref{derivatafzcon} per una generica $f:C\rightarrow R$ \'e condizione sufficiente e necessaria affinch\'e $f$ abbia un punto stazionario. 
- Per estensione se $f:C^N\rightarrow R$ \'e una funzione a valori reali di un certo vettore $z=\left[ z_0, \ z_1, \ \cdots \ , \ z_{N-1}\right]^T \in C^N$ e definiamo il cogradiente e il gradiente coniugato come:
+ Per estensione se $f:C^N\rightarrow R$ \'e una funzione a valori reali di un certo vettore $z=\left[ z_0, \ z_1, \ \cdots \ , \ z_{N-1}\right]^T \in C^N$ e definiamo il gradiente e il gradiente coniugato come:
  \begin{align}
   \frac{\partial}{\partial z} &:=\left[ \frac{\partial}{\partial z_0},\frac{\partial}{\partial z_1},\cdots ,\frac{\partial}{\partial z_{N-1}}\right]\\
   \frac{\partial}{\partial \overline{z}} &:=\left[ \frac{\partial}{\partial \overline{z_0}},\frac{\partial}{\partial \overline{z_1}},\cdots ,\frac{\partial}{\partial \overline{z_{N-1}}}\right]
@@ -610,7 +618,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
   \nabla_z :&= \left(\frac{\partial}{\partial\overline{z}}\right)^T\\
   &=\left(\frac{\partial}{\partial z}\right)^* \notag
  \end{align}
- pu\'o essere dimostrato, usando la disuguaglianza di Cauchy-Scharz, che $f$ ha il maggior tasso di cambiamento lungo il gradiente. Grazie a queste definizioni possiamo costruire una $cost \, function$ reale con argomenti complessi anche se alcuni elementi della funzione non sono olomorfi. 
+ Pu\'o essere dimostrato, usando la disuguaglianza di Cauchy-Scharz, che $f$ ha il maggior tasso di cambiamento lungo il gradiente. Grazie a queste definizioni possiamo costruire una $cost \, function$ reale con argomenti complessi anche se alcuni elementi della funzione non sono olomorfi. 
  In generale, date le funzioni arbitrarie $f$e $g$, combiniamo gli jacobiani come segue
  \begin{align}
   J_{f\circ g} = J_f J_g + J_f^{\left(c\right)}\overline{\left(J_g^{\left(c\right)}\right)}\\
@@ -629,18 +637,21 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  
  \section{Confronto con rete neurale a valori reali} \label{CompR-Csection}
  
- Le reti neurali a valori complessi non sono un nuovo concetto, tuttavia, l'uso di modelli a valore reale \'e stato spesso favorito rispetto a modelli a valore complesso a causa delle difficolt\'a nella formazione e nelle prestazioni, infatti, come riprender\'o pi\'u avanti, le reti neurali complesse non sempre convengono e se comparate alle reti neurali a valori reali, soprattutto in problemi naturamente nel dominio reale e non complesso. 
+ Le reti neurali a valori complessi non sono un nuovo concetto, tuttavia, l'uso di modelli a valore reale \'e stato spesso favorito rispetto a modelli a valore complesso a causa delle difficolt\'a nella formazione e nelle prestazioni.
+ Infatti, come riprender\'o pi\'u avanti, le reti neurali complesse non sempre convengono se comparate alle reti neurali a valori reali, soprattutto in problemi naturamente nel dominio reale e non complesso. 
  In tal caso infatti introducendo i numeri complessi si ottengono risultati non molto distanti, ma con una complessit\'a di calcolo maggiore. 
  
- Il numero di parametri reali \'e una metrica per quantificare la capacit\'a di una rete nella sua capacit\'a di approssimare funzioni strutturalmente complesse. 
- Con troppi parametri il modello tende a overfittare i dati mentre con troppi pochi tende a underfittare. Spesso la letteratura per\'o ignora il numero di parametri, finendo col confrontare reti di dimensioni notevolmente diverse.  Bisogna garantire che queste architetture siano comparabili per dimensioni e capacit\'a del modello. 
- Per definire la dimensione della rete si pu\'o considerare il numero di parametri reali. Di conseguenza, per costruire reti comparabili o si imposta un numero fisso di neuroni a valore reale oppure si fissa il numero di parametri reali per ogni rete.
+ Il numero di parametri reali \'e una metrica per quantificare la capacit\'a di una rete di approssimare funzioni strutturalmente complesse. 
+ Con troppi parametri il modello tende a overfittare i dati del training mentre con troppi pochi tende ad underfittare. Spesso la letteratura per\'o ignora il numero di parametri, finendo col confrontare reti di dimensioni notevolmente diverse.  
+ Bisogna garantire che queste architetture siano comparabili per dimensioni e capacit\'a del modello. 
+ Per definire la dimensione della rete si pu\'o considerare il numero di parametri reali. 
+ Di conseguenza, per costruire reti comparabili o si imposta un numero fisso di neuroni a valore reale oppure si fissa il numero di parametri reali per ogni rete.
  
  Una conseguenza della rappresentazione di un numero complesso come $a+\textbf{i}b$ (utilizzando quindi due numeri reali) \'e dato dal fatto che, a parit\'a di ``neuroni'', il numero di parametri $p_C$ della rete complessa diventa il doppio del numero di parametri $p_R$ di una rete a valori reali. 
- Per garantire che  modelli abbiano le stesse capacit\'a il numero di parametri a valore reale per layer deve essere uguale o almeno il pi\'u simile possibile. 
+ Per garantire che  modelli abbiano le stesse capacit\'a, il numero di parametri a valore reale per layer deve essere uguale o almeno il pi\'u simile possibile. 
  In questo modo le differenze di prestazione sono causate dall'introduzione di numeri complessi come parametri e non da una differenza di capacit\'a. 
  
- Si consideri il numero di parametri in uno strato fully connected nel caso reale e nel caso complesso. 
+ Si consideri il numero di parametri in un layer fully connected nel caso reale e nel caso complesso. 
  Sia $d$ la dimensione dell'input e $m$ il numero di neuroni di un layer, di conseguenza il numero di parametri nel caso reale e nell caso complesso \'e:
  \begin{equation}
   p_R = (d \times m) + m, \;\;\;\; p_C = 2(d \times m) + 2m
@@ -652,7 +663,7 @@ Esponendo il sistema ad una serie di impulsi RF di opportuna intensit\'a e tempo
  \end{align}
  
  A prima vista la progettazione di architetture di reti neurali multistrato comparabili, ovvero con lo stesso numero di paramentri a valore reale in ogni layer pare banale. 
- Tuttavia, dimezzare il numero di neuroni in ogni stato non permette il raggiungimento della comparabilit\'a dei parametri. 
+ Tuttavia, dimezzare il numero di neuroni in ogni stato non permette il raggiungimento della comparabilit\'a dei modelli. 
  Si pu\' affrontare questo problema scegliendo delle architetture con un numero di hiddel layers $k$ e un numero di neuroni per layer che pu\'o alternarsi tra $m$ e $m/2$. 
  
  Si consideri per esempio le dimensioni degli ouput e dei pesi con $k=4$. Per il caso reale si ha quindi:
@@ -687,10 +698,9 @@ Mentre per il caso complesso:
 
  
  Confrontando reti neurali reali e complesse di capacit\'a simile, i modelli complessi hanno prestazioni solitamente uguali o leggermente peggiori rispetto ai modelli a valore reale, se vengono considerati compiti di classificazione nel dominio reale. 
- Tuttavia le reti neurali a valore complesso sono state applicate con successo a una variet\'a di compiti, in particolare nell'elaborazione dal segnale in cui i dati di input hanno una interpretazione fisica nel dominio complesso\cite{birx1993complex} \cite{sawada2003polar} \cite{yamaki2008singular} \cite{hirose2009complex} \cite{guberman2016complex} \cite{trabelsi2017deep}. Il pregio principale delle 
- reti neurali a valore complesso \'e quello di riuscire a gestire meglio il rumore sul piano complesso.
+ Tuttavia le reti neurali a valore complesso sono state applicate con successo a una variet\'a di compiti, in particolare nell'elaborazione dal segnale in cui i dati di input hanno una interpretazione fisica nel dominio complesso\cite{birx1993complex} \cite{sawada2003polar} \cite{yamaki2008singular} \cite{hirose2009complex} \cite{guberman2016complex} \cite{trabelsi2017deep}. 
  
- Per confrontare reti neurali a valori reali con quelli a valori complessi, Nils M\"onning e Suresh Manandhar in $Evaluation$ $of$ $Complex-Valued$ $on$ $Real-Valued$ $Classification$ $Tasks$  \cite{monning2018evaluation} applicano entrambe le reti a problemi di classificazione comuni. 
+ Per confrontare reti neurali a valori reali con quelle a valori complessi, Nils M\"onning e Suresh Manandhar in $Evaluation$ $of$ $Complex-Valued$ $on$ $Real-Valued$ $Classification$ $Tasks$  \cite{monning2018evaluation} applicano entrambe le reti a problemi di classificazione comuni, confrontando i risutati ottenuti nei set di test. 
  Gli esperimenti eseguiti sono due:
  \begin{itemize}
   \item MLP con numero di hidden layers $k = 0, 2, 4, 8$, dimensione degli hidden layer fissa per le reti a valori reali e alternante (64 o 32 neuroni) per le reti a valori complessi. Non \'e stato definito un budget di parametri. Il test \'e stato fatto sul problema di classificazione MINST, CIFAR-10, CIFAR-100 e Reuters. 
@@ -699,7 +709,6 @@ Mentre per il caso complesso:
  
  \'E stata utilizzata l'inizializzazione dei pesi discussa da Trabelsi et al. \cite{trabelsi2017deep} per tutti gli esperimenti. 
  Per ridurre l'impatto dell'inizializzazione, ogni modello \'e stato addestrato 10 volte, con training composte da 100 epochs. 
- Come funzione d'attivazione per l'ultimo layer \'e stata usata sempre la $sigmoid(|z|^2)$ o la $softmax(|z|^2)$.
   
  Le tabelle \ref{MNIST1Tab},\ref{Reuters1Tab},\ref{CIFAR-101Tab},\ref{CIFAR-1001Tab} mostrano i risultati per reti neurali con dimensione variabile e budget illimitato per i parametri (esperimento 1). 
  Le tabelle \ref{MNIST2Tab},\ref{Reuters2Tab},\ref{CIFAR-102Tab},\ref{CIFAR-1002Tab} mostrano invece i risultati dell'esperimento 2.
@@ -1188,7 +1197,9 @@ Mentre per il caso complesso:
  Questi dati confermano l'affermazione precedente per la quale le reti neurali a valori complessi hanno prestazioni simili o leggermente inferiori nei campi di applicazione nel dominio reale. 
  
  \'E difficile trovare un confronto cos\'i accurato come quello precedente per problemi nel dominio complesso, ma sono presenti esempi in cui la rete neurale a valori complessi \'e risultata pi\'u efficiente di quella a valori reali. 
- Riporto di seguito i dati trovati, facendo riferimento nelle descrizioni delle tabelle all'esperimento e all'articolo preso in considerazione. Per comodit\'a riporto solo i dati relativi a reti neurali a valori reali e a valori complessi, tralasciando quelli relativi ad altri modelli.
+ Riporto di seguito i dati trovati, facendo riferimento nelle descrizioni delle tabelle all'esperimento e all'articolo preso in considerazione. 
+ Per comodit\'a riporto solo i dati relativi a reti neurali a valori reali e a valori complessi, tralasciando quelli relativi ad altri modelli.
+ I risultati, come in precedenza, sono ottenuti dai set di test.
  
  In \cite{trabelsi2017deep} vengono confrontate reti neurali a valori reali e a valori complessi sul problema di trascrizione musicale MusicNet. 
  In particolare la rete neurale a valori reali tratta il segnale separando la componente reale da quella immaginaria. I risultati di tale esperimento sono riportati in tabella \ref{MusicNetTab}.
@@ -1200,7 +1211,7 @@ Mentre per il caso complesso:
    \textbf{ARCHITECTURE} & \textbf{FS} & \textbf{PARAMS} & \textbf{AP} \\
    \hline
    DEEP, REAL & 11kHz & 10.0M & 69.6\% \\
-   DEEP, COMPLEX & 11kHz & 8.8M & 72.9\% \\
+   DEEP, COMPLEX & 11kHz & 8.8M & \textbf{72.9\%} \\
    \hline
   \end{tabular}
   \caption{Tratto da \cite{trabelsi2017deep}. Dati relativi all'esperimento MusicNet. FS \'e il rate di campionamento; params indica il numero di parametri e AP indica la media dei risultati ottenuti.}
@@ -1242,7 +1253,7 @@ Mentre per il caso complesso:
   \label{SVRTab}
  \end{table}
  
- In \cite{scardapane2018complex} le reti neurali sono confrontate sul dataset di immagini MNIST e la rete neurale a valori reali ha input di dimensione doppia in quanto riceve la parte reale e la parte immaginaria del segnale come due elementi distintidell'input. I risultati sono mostrati in tabella \ref{MNISTTab}.
+ In \cite{scardapane2018complex} le reti neurali sono confrontate sul dataset di immagini MNIST e la rete neurale a valori reali ha input di dimensione doppia in quanto riceve la parte reale e la parte immaginaria del segnale come due elementi distinti dell'input. I risultati sono mostrati in tabella \ref{MNISTTab}.
  \begin{table}[h]
   \centering
   \begin{tabular}{l c}
@@ -1287,7 +1298,7 @@ Mentre per il caso complesso:
     Real network & 0.007 & 99.8\% & 0.145 & 97.5\% \\
     \hline
   \end{tabular}
-  \caption{Tratto da \cite{guberman2016complex}. Risultati del modello reale e di quello complesso nel set di trining e di test. Si noti come il test loss della rete reale sia decisamente maggiore rispetto a quello della rete complessa.}
+  \caption{Tratto da \cite{guberman2016complex}. Risultati del modello reale e di quello complesso nel set di trining e di test. Si noti come il test loss della rete reale sia decisamente maggiore rispetto a quello della rete complessa. Maggiore \'e il test loss, minore \'e la capacit\'a di generalizzazione della rete.}
  \end{table}
 
  Ci\'o viene mostrato ancora meglio nel confronto effettuato nei grafici \ref{FluoConvergapng} e \ref{FluoConvergbpng} della convergenza delle due reti in funzione del numero delle epochs (per ogni epoch viene effettuato un determinato numero di cicli di train e di test per determinare l'accuratezza).
@@ -1304,30 +1315,26 @@ Mentre per il caso complesso:
    \caption{Tratto da \cite{guberman2016complex}. Convergenza della rete neurale a valori reali.}
    \label{FluoConvergbpgn}
   \end{subfigure}
-  \caption{Convergenza delle reti reali e complesse in funzione dei progressi dell'algoritmo. Una epoch \'e il numero di iterazioni in cui il numero totale di esempi scelti \'e uguale alla dimensione dell'insieme di addestramento, in questo caso una epoch \'e di 100 iterazioni. Nella linea blu, la funzione di loss dell'allenamento e nella linea rossa quella del test. Il modello reale soffre di overfitting, mentre il complesso no.}
+  \caption{Convergenza delle reti reali e complesse in funzione dei progressi dell'algoritmo. Una epoch \'e il numero di iterazioni in cui il numero totale di esempi scelti \'e uguale alla dimensione dell'insieme di addestramento, in questo caso una epoch \'e di 100 iterazioni. Nella linea blu, la funzione di loss del training e nella linea rossa quella del test. Il modello reale soffre di overfitting, mentre il complesso sembra soffrirne meno.}
  \end{figure}
  
- Bisogna tenere a mente che in \cite{guberman2016complex} viene esplicitata la scelta di confrontare solo i risultati migliori e suppongo che anche per gli altri dati ottenuti sia stata fatta la stessa scelta.
+ Bisogna tenere a mente che in \cite{guberman2016complex} viene esplicitata la scelta di confrontare solo i risultati migliori e suppongo che anche per gli altri dati ottenuti sia stato fatto lo stesso.
  Per\'o in \cite{guberman2016complex} si ha la possibilit\'a di capire cosa significhi questa scelta: in figura \ref{FluoConvergAttemptspng} viene mostrato come solo 4 volte su 20 la rete riesce a raggiungere la convergenza desiderata.
  \begin{figure}[h]
   \centering
   \includegraphics[scale=0.4]{FluoConvergAttempts.png}
-  \caption{Tratto da \cite{guberman2016complex}. Training ripetuto della rete complessa. Ogni riga rappresenta il training loss in tutte le epochs di una singola prova. Il tasso di apprendimento \'e ridotto dopo 20 epochs, per una convergenza ottimale. Il processo di allenamento \'e instabile e sensibile agli effetti di randomizzazione. Non tutte le prove sono convergenti e, tra queste, la maggior parte non ha raggiunto il minimo globale.}
+  \caption{Tratto da \cite{guberman2016complex}. Training ripetuto della rete complessa. Ogni riga rappresenta il training loss in tutte le epochs di una singola prova. Il tasso di apprendimento \'e ridotto dopo 20 epochs, per una convergenza ottimale. Non tutte le prove sono convergenti e, tra queste, la maggior parte non ha raggiunto il minimo globale.}
  \end{figure}
 
  
  Per poter migliorare questo aspetto, di seguito trattato metodi per poter migliorare la resistenza all'overfitting, ma, ancor pi\'u importante, migliorare la generalizzazione e la ricerca del minimo globale della rete neurale.
 
 
-
- 
-
-
-
- 
  \chapter*{Ottimizzazione}
  \section{ensemble di reti neurali}
- Una rete di dimensioni finite raramente apprende completamente un particolare mapping e pu\'o generalizzare male. Aumentare la dimensione o il numero di hidden layer per\'o, il pi\'u delle volte, non porta a nessun miglioramento \cite{soulie1987evaluation} anzi, aumentando la dimensionalit\'a del problema aumenta la possibilit\'a che la rete si stabilizzi lontana dalla soluzione desiderata. 
+ Una rete di dimensioni finite raramente apprende completamente un particolare mapping e pu\'o generalizzare male. 
+ Aumentare la dimensione o il numero di hidden layer per\'o, il pi\'u delle volte, non porta a nessun miglioramento \cite{soulie1987evaluation} anzi, aumentando la dimensionalit\'a del problema aumenta la possibilit\'a che la rete si stabilizzi lontana dal minimo globale. 
+ 
  Molti ricercatori hanno dimostrato che la semplice combinazione degli output di molti classificatori pu\'o generare previsioni pi\'u accurate di quelle di qualsiasi classificatore \cite{clemen1989combining} \cite{wolpert1992stacked}. In particolare, la combinazione di reti neurali addestrate separatamente (comunemente indicato come ensemble di reti neurali) si \'e dimostrata particolarmente efficace \cite{alpaydin1993multiple} \cite{drucker1994boosting} \cite{krogh1995neural} \cite{maclin1995combining} \cite{perrone1992soft}. 
  Figura \ref{EnsembleStructurepng} illustra la struttura generale di un ensemble di reti neurali. Ogni rete nell'ensemble \'e per prima cosa addestrata e poi, per ogni esempio del training, l'output predetto di ognuna delle reti \'e combinato dal judge per produrre l'output dell'ensemble. 
  \begin{figure}[h!]
@@ -1343,6 +1350,7 @@ Mentre per il caso complesso:
  L'errore di una singola rete dipende dalle dimensioni dell'hidden layer e dalla durata del training. 
  Tuttavia in generale l'errore non \'e una funzione decrescente della dimensione dell'hidden layer. 
  In figura \ref{NetErrHiddenLapng} e \ref{NetErrHiddenLbpng} si mostra l'errore di una singola rete rispetto alla dimensione dell'hidden layer riscontrato da \cite{lincoln1990synergy} per diversi step di training. 
+ 
  D'altra parte la miglior capacit\'a di apprendimento di un ensemble dipende, come accennato in precedenza, dalla sinergia tra le singole reti e non dalle maggiori dimensioni rispetto alla singola rete. 
  In \cite{lincoln1990synergy} vengono confrontate le prestazioni di ogni singola rete con le prestazioni di un enseble di 5 reti neurali, con stessa struttura della singola.
  
@@ -1374,7 +1382,7 @@ Mentre per il caso complesso:
    \includegraphics[width=\linewidth]{ClusterErrorb.png}
    \label{EnsembleAdvantagebpng}
   \end{subfigure}
-  \caption{Tratto da \cite{lincoln1990synergy}. Vantaggio del cluster in funzione dell'errore. A) dopo 256 step del training e B) dopo 1024 step del training.}
+  \caption{Tratto da \cite{lincoln1990synergy}. Vantaggio dell'ensemble in funzione dell'errore. A) dopo 256 step del training e B) dopo 1024 step del training.}
  \end{figure}
  
  \subsection{judge}
@@ -1392,14 +1400,14 @@ Mentre per il caso complesso:
   e &= \frac{1}{N} \sum{k=1}^N e_k \\
   e_k &= \left | Y - Y_k \right |
  \end{align}
- Con $e$ che indica il tasso di correzione e $e_k$ \'e la deviazione dell'output della singola rete dall'output dell'ensemble.
+ Con $G$ che indica il tasso di correzione e $e_k$ \'e la deviazione dell'output della singola rete dall'output dell'ensemble.
  
  Dopo il periodo di training iniziale, si presume generalmente che la rete neurale non sia pi\'u soggetta ad ulteriore training. 
  Tuttavia, come gi\'a anticipato, si pu\'o restituire l'output del judge alle singole reti neurali come output desiderato. 
- William P. Lincoln e Josef Skrzypek in \textit{Synergy of clustering multiple back propagation networks} affermano che questo procedimento migliori la resistenza al rumore e l'auto-organizzazione $(da capire cosa sia)$.
+ William P. Lincoln e Josef Skrzypek in \textit{Synergy of clustering multiple back propagation networks} affermano che questo procedimento migliori la resistenza al rumore.
   
  \subsection{ottimizzazione dell'ensemble}
-  Precedenti lavori sia teorici \cite{hansen1990neural} \cite{krogh1995neural} che empirici \cite{hashem1994optimal} \cite{maclin1995combining} hanno dimostrato che un ensemble efficace dovrebbe consistere non solo in reti particolarmente performanti, ma anche in reti che commettano errori in parti distinte dello spazio degli input. 
+ Precedenti lavori sia teorici \cite{hansen1990neural} \cite{krogh1995neural} che empirici \cite{hashem1994optimal} \cite{maclin1995combining} hanno dimostrato che un ensemble efficace dovrebbe consistere non solo in reti particolarmente performanti, ma anche in reti che commettano errori in parti distinte dello spazio degli input. 
  
  Assumiamo che l'obiettivo sia quello di apprendere una funzione $f:R^N\to R$ per la quale abbiamo $p$ coppie input-output per il training con $Y_k = f \left( x_k \right) $ e $k=1, \cdots , p$. 
  L'ensenble consiste in $N$ reti e chiamiamo $V^{\alpha}\left( x\right)$ l'output della rete $\alpha$ relativo all'input $x$. 
@@ -1433,24 +1441,24 @@ Mentre per il caso complesso:
    A^{\alpha} &= \int dx \; p\left(x\right) \; a^{\alpha}\left(x\right) \\
    E &= \int dx \; p\left(x\right) \; e\left(x\right).
   \end{align}
-  Le prime due sono rispettivamente l'errore generalizzato e l'ambiguit\'a della rete $\alpha$ e $E$ \'e l'errore generalizzato dell'ensemble. 
+  Le prime due sono rispettivamente l'errore di generalizzazione e l'ambiguit\'a della rete $\alpha$ ed $E$ \'e l'errore di generalizzazione dell'ensemble. 
   Dalla \ref{GeneralizationError} otteniamo:
   \begin{equation}
    E = \overline{E} - \overline{A} \label{EnsembleGeneralizationError}
   \end{equation}
   con $\overline{E} = \sum_{\alpha} w_{\alpha} E^{\alpha}$ la media pesata degli errori generalizzati delle singole reti e $\overline{A} = \sum_{\alpha} w_{\alpha} A^{\alpha}$ la media pesata delle ambiguit\'a delle singole reti.
   
-  Questa equazione separa l'errore generalizzato in un termine che dipende dagli errori generalizzati delle singole reti e da un altro contenente le correlazioni tra le reti. 
+  Questa equazione separa l'errore di generalizzazione in un termine che dipende dagli errori di generalizzazione delle singole reti e da un altro contenente le correlazioni tra le reti. 
   Inoltre, il termine di correlazione $A$ pu\'o essere stimato interamente da dati non etichettati, non \'e richiesta alcuna conoscenza della funzione da approssimare. 
   Il termine ``senza etichetta'' \'e tratto dai problemi di classificazione e in questo contesto si riferisce a un input $x$ per il quale non si conosce il valore $f(x)$ della funzione target. 
   Se l'ensemble \'e fortemente distorto, l'ambiguit\'a sar\'a piccola, perch\'e le reti implementano funzioni molto simili e concordano quindi gli input anche al di fuori del training. 
-  Pertanto l'errore generalizzato sar\'a sostanzialmente uguale alla media degli errori delle singole reti. 
+  Pertanto l'errore di generalizzazione sar\'a sostanzialmente uguale alla media degli errori delle singole reti. 
   Se, d'altra parte, c'\'e una grande varianza, l'ambiguit\'a \'e alta e in questo caso l'errore di generalizzazione sar\'a pi\'u piccolo dell'errore di generalizzazione medio.
-  Vediamo immediatamente che l'errore generalizzato dell'ensemble \'e sempre minore della media pesata degli errori degli ensemble: $E < \overline{E}$. In particolare, per pesi uniformi:
+  Vediamo immediatamente che l'errore di generalizzazione dell'ensemble \'e sempre minore della media pesata degli errori degli ensemble: $E < \overline{E}$. In particolare, per pesi uniformi:
   \begin{equation}
    E \le \frac{1}{N} \sum_{\alpha} E^{\alpha}
   \end{equation}
-  Dalla \ref{EnsembleGeneralizationError} si ricava che aumentare l'efficienza dell'ensemble significa aumentare l'ambiguit\'a e quindi la discordanza tra le reti singole senza aumentarne ovviamente l'errore generalizzato. 
+  Dalla \ref{EnsembleGeneralizationError} si ricava che aumentare l'efficienza dell'ensemble significa aumentare l'ambiguit\'a e quindi la discordanza tra le reti singole senza aumentarne ovviamente l'errore di generalizzazione. 
   Come aumentare l'ambiguit\'a dell'ensemble? Un metodo pu\'o essere quello di utilizare diverse tipologie di reti neurali, oppure di utilizzare set di training diversi. 
   Inoltre, per essere in grado di stimare il primo termine in \ref{EnsembleGeneralizationError}, sarebbe auspicabile una cross-validation. 
   In \cite{krogh1995neural} viene testato questo metodo per approssimare con un ensemble di reti neurali un'onda quadra in una variabile, mostrata in figura \ref{SqWavepng}. 
@@ -1459,19 +1467,21 @@ Mentre per il caso complesso:
   \begin{figure}[h!]
    \centering
    \includegraphics[scale=0.4]{SqWave.png}
-   \caption{Tratto da \cite{krogh1995neural}. La linea spessa e continua indica l'output dell'ensemble, mentre quelle tratteggiate gli output delle singole reti. Viene mostrata anche l'ambiguit\'a (dash-dot line).}
+   \caption{Tratto da \cite{krogh1995neural}. La linea spessa e continua indica l'output dell'ensemble, mentre quelle tratteggiate gli output delle singole reti. Viene mostrata anche l'ambiguit\'a (linea tratto-punto).}
    \label{SqWavepng}
   \end{figure}
-  In figura \ref{GenErrorpng} viene mostrato l'errore generalizzato in funzione della dimensione $K$ dei set per la cross-validation.
+  In figura \ref{GenErrorpng} viene mostrato l'errore di generalizzazione in funzione della dimensione $K$ dei set per la cross-validation.
   \begin{figure}[h!]
    \centering
    \includegraphics[scale=0.4]{GenError.png} 
-   \caption{Tratto da \cite{krogh1995neural}. La linea continua mostra l'errore generalizzato per pesi uniformi in funzione di $K$, dove $K$ \'e la dimensione dei set di convalida. La linea tratteggiata \'e l'errore stimato dall'equazione \ref{EnsembleGeneralizationError}. La linea tratteggiat \'e per i pesi ottimali stimati dall'uso degli errori di generalizzazione per le singole reti, stimate dai set di crossvalidation. La linea continua inferiore \'e l'errore generalizzato che si otterrebbe se i singoli errori di generalizzazione fossero conosciuti esattamente.}
+   \caption{Tratto da \cite{krogh1995neural}. La linea continua mostra l'errore di generalizzazione per pesi uniformi in funzione di $K$, dove $K$ \'e la dimensione dei set di convalida. La linea tratteggiata \'e l'errore stimato dall'equazione \ref{EnsembleGeneralizationError}. La linea tratteggiata \'e per i pesi ottimali stimati dall'uso degli errori di generalizzazione per le singole reti, stimate dai set di crossvalidation. La linea continua inferiore \'e l'errore generalizzato che si otterrebbe se i singoli errori di generalizzazione fossero conosciuti esattamente.}
    \label{GenErrorpng}
   \end{figure}
-  Innanzitutto notiamo come l'errore generalizzato sia lo stesso per un set di cross-validation di dimensione 40 o 0. 
+  Innanzitutto notiamo come l'errore di generalizzazione sia lo stesso per un set di cross-validation di dimensione 40 o 0. 
   Tuttavia bisogna considerare che sono stati scartati tutti i risultati di ensemble con due o pi\'u reti non convergenti.
 
+  \subsubsection{Ensemble di reti neurali tramite algoritmi genetici}
+  
   Dopo aver definito pi\'u chiaramente il problema da affrontare, cerchiamone una soluzione. 
   La maggior parte dei lavori \'e concentrata sulla combinazione degli output di reti pi\'u performanti o ha indirizzato solo indirettamente il modo in cui generare un buon ensemble di reti, generando casualmente diverse topologie, impostazioni iniziali dei pesi, dei parametri o utilizzando solo una parte del set di training nella speranza di produrre reti che commettano errori per input distinti. 
   Per trovare direttamente un ensemble accurato e diversificato si possono sfruttare gli algoritmi genetici, creando una popolazione iniziale e utilizzando operatori genetici per creare continuamente nuove reti, mantenendo di volta in volta solo l'insieme di reti pi\'u performanti e al contempo pi\'u discordi tra loro. 
@@ -1491,11 +1501,14 @@ Mentre per il caso complesso:
   \end{equation}
   
   Definiamo il termine di accuratezza del set di convalida della rete come $A_i = 1-E_i$ e utilizziamo l'equazione \ref{diversity} per calcolare il termine di diversit\'a $D_i$. 
-  Quindi normalizziamo separatamente ciascuno dei due termini. Non essendo sempre chiaro con quale valore si debba settare $\lambda$, solitamente ci si basa sulle seguenti regole. 
+  Quindi normalizziamo separatamente ciascuno dei due termini. 
+  Non essendo sempre chiaro con quale valore si debba settare $\lambda$, solitamente ci si basa sulle seguenti regole. 
   Il valore di $\lambda$ non si modifica se l'errore dell'ensemble $\widehat{E}$ diminuisce mentre consideriamo nuove reti. 
   Cambia invece se si verifica una delle seguenti: (1) se l'errore della popolazione $\overline{E}$ non sta aumentando e la diversit\'a $D$ sta diminuendo, aumentiamo $\lambda$; (2) se $\overline{E}$ sta aumentando e $\overline{D}$ non decresce, caliamo $\lambda$.
   
-  Tabella \textbf{GOAL:} creare geneticamente un ensemble di reti accurate e diversificate.
+  Il tutto si pu\'o sintetizzare come segue:
+  
+  \textbf{GOAL:} creare geneticamente un ensemble di reti accurate e diversificate.
   \begin{itemize}
    \item Creare e addestrare la popolazione iniziale di reti.
    \item Finch\'e non si raggiunge un limite di efficacia o di tempo:
@@ -1510,41 +1523,54 @@ Mentre per il caso complesso:
     \item Utilizzare la popolazione attuale di reti come ensemble e combinare gli output delle reti seguendo l'equazione \ref{JudgeWeights}
    \end{itemize}
   \end{itemize}
-  Ribadiamo che una rete utile all'ensemble \'e quella che classifica correttamente il maggior numero possibile di casi, mentre pecca principalmente laddove le altre reti classificano correttamente. 
-  Ci preoccupiamo di questo aspetto durante la backpropagation moltiplicando la normale funzione di costo per un termine che misura l'errore combinato della popolazione su un determinato esempio:
+  Ribadisco che una rete utile all'ensemble \'e quella che classifica correttamente il maggior numero possibile di casi, mentre pecca principalmente laddove le altre reti classificano correttamente. 
+  Ci si preoccupa di questo aspetto durante la backpropagation moltiplicando la normale funzione di costo per un termine che misura l'errore combinato della popolazione su un determinato esempio:
   \begin{equation}
    Cost = \sum_{k \in T} \left| \frac{t \left(k\right) - \widehat{o} \left(k\right)}{\widehat{E}} \right|^{\frac{\lambda}{\lambda + 1}} \left[ t\left(k\right) - a\left(k\right) \right]^2 \label{EnsembleCostFunc}
   \end{equation}
   dove $t(k)$ \'e il target e $a(k)$ \'e l'attivazione della rete per l'esempio k nel training set $T$. 
-  Si noti che, dato che la nostra rete non \'e ancora un membro dell'ensemble, $\widehat{o} (k)$ e $\widehat{E}$ non dipendono dalla nostra rete; il nuovo termine \'e perci\'o una costante quando calcoliamo le derivate nella back propagation. 
-  Normalizziamo $t(k) - \widehat{o} (k)$ dividendo per l'errore dell'ensemble $\widehat{E}$ in modo che il valore medio del nostro nuovo termine sia circa 1 indipendentemente dalla correttezza dell'insieme. 
+  Si noti che, dato che la rete non \'e ancora un membro dell'ensemble, $\widehat{o} (k)$ e $\widehat{E}$ non dipendono dalla  rete stessa; il nuovo termine \'e perci\'o una costante quando si calcolano le derivate nella back propagation. 
+  Si normalizza $t(k) - \widehat{o} (k)$ dividendo per l'errore dell'ensemble $\widehat{E}$ in modo che il valore medio del nuovo termine sia circa 1 indipendentemente dalla correttezza dell'insieme. 
   Ci\'o \'e particolarmente importante con popolazioni particolarmente accurate, poich\'e $t(k) - \widehat{o} (k)$ sar\'a vicino a 0 per la maggior parte degli esempi e la rete verrebbe addestrata solo su un numero esiguo di esempi. 
   L'esponenete $\frac{\lambda}{\lambda + 1}$ rappresenta il rapporto di importanza del termine di diversit\'a nella funzione di fitness. 
   Ad esempio, se $\lambda$ \'e vicino a 0, la diversit\'a non \'e considerata importante e la rete viene addestrata con la consueta funzione di costo; tuttavia se $\lambda$ \'e grande, la diversit\'a \'e cosiderata importante e il nuovo termine nella funzione di costo assume maggiore importanza. 
-  Combiniamo le previsioni delle reti prendendo una somma ponderata dell'output di ciascuna rete, dove ogni peso \'e definito come in precedenza. Riportiamo di seguito i risultati ottenuti da David W. Opitz e Jude W. Shavlik \cite{opitz1994using}.
+  
+  Si combinano le previsioni delle reti prendendo una somma ponderata dell'output di ciascuna rete, dove ogni peso \'e definito come in precedenza. 
+  Riporto di seguito i risultati ottenuti da David W. Opitz e Jude W. Shavlik \cite{opitz1994using}.
   
   L'algoritmo genetico che viene utilizzato per generare nuove topologie di rete \'e l'algoritmo REGENT \cite{opitz1994using}. 
   REGENT utilizza algoritmi genetici per effettuare ricerche nello spazio delle topologie della rete neurale KN. 
   I KN sono reti le cui topologie sono determinate a seguito della mappatura diretta di un insieme di regole di base che rappresentano ci\'o che attualmente si conosce del problema da affrontare. 
-  KBANN \cite{towell1994knowledge}, per esempio, traduce un insieme di regole proposizionali in una rete neurale, quindi affina i pesi della rete risultante usando la back-propagation. L'uso di KNN consente di avere reti altamente corrette nell'ensemble; tuttavia, poich\'e ogni rete nell'ensemble \'e inizializzata con lo stesso insieme di regole specifiche del dominio, non ci si aspetta che vi sia un grande disaccordo tra le reti. 
-  Un'alternativa da considerare \'e quella di generare casualmente la opolazione iniziale di topologie di rete, poich\'e a volte le regole specifiche del dominio non sono disponibili.
+  
+  KBANN \cite{towell1994knowledge}, per esempio, traduce un insieme di regole proposizionali in una rete neurale, quindi affina i pesi della rete risultante usando la back-propagation. 
+  L'uso di KNN consente di avere reti altamente corrette nell'ensemble; tuttavia, poich\'e ogni rete nell'ensemble \'e inizializzata con lo stesso insieme di regole specifiche del dominio, non ci si aspetta che vi sia un grande disaccordo tra le reti. 
+  
+  Un'alternativa da considerare \'e quella di generare casualmente la popolazione iniziale di topologie di rete, poich\'e a volte le regole specifiche del dominio non sono disponibili.
   \'E stato eseguito l'algoritmo genetico sul set di problemi MAX di NYNEX e su tre problemi del progetto genoma umano che aiutano a localizzare i geni nelle sequenze di DNA. 
   Ognuno di questi domini \'e accompagnato da una serie di regole approssimativamente corrette che descrivono ci\'o che attualmente \'e noto su tale attivit\'a \cite{opitz1995anytime} \cite{opitz1994using}. 
   Gli esperimenti misurano l'errore del set di test dell'algoritmo genetico su queste attivit\'a. 
-  Ogni ensemble \'e composto da 20 reti e gli algoritmi REGENT e ADDEMUP (cos\'i \'e stato chiamato l'algoritmo genetico utilizzato in \cite{opitz1996generating}) hanno considerato 250 reti durante la loro ricerca genetica. La tabella \ref{NoKnowledgeTab} presenta i risultati del caso in cui si crei casualmente la topologia delle reti. 
-  La prima riga della tabella \ref{NoKnowledgeTab}, la migliore rete, deriva da una rete neurale a singolo strato in cui, per ogni fold abbiamo addestrato 20 reti contenenti tra 0 e 100 hidden nodes e usato un set di validazione per scegliere la migliore. 
+  Ogni ensemble \'e composto da 20 reti e gli algoritmi REGENT e ADDEMUP (cos\'i \'e stato chiamato l'algoritmo genetico utilizzato in \cite{opitz1996generating}) hanno considerato 250 reti durante la loro ricerca genetica. 
+  La tabella \ref{NoKnowledgeTab} presenta i risultati del caso in cui si crei casualmente la topologia delle reti. 
+  
+  \paragraph{descrizione esperimento in tabella \ref{NoKnowledgeTab}}
+  La prima riga della tabella \ref{NoKnowledgeTab}, la migliore rete, deriva da una rete neurale a singolo layer in cui, per ogni fold sono state addestrate 20 reti contenenti tra 0 e 100 hidden nodes (neuroni) e usato un set di validazione per scegliere la migliore. 
   La riga successiva, il bagging, contiene i risultati dell'esecuzione dell'algoritmo di bagging di Breiman \cite{breiman1994bagging} su reti standard con un unico hidden layer, in cui il numero di hidden nodes viene impostato casualmente tra 0 e 100 per ogni rete. 
   Il bagging \'e un ``bootstrap'', cio\'e un metodo dell'ensemble che forma ogni rete con una diversa partizione dell'insieme di addestramento. 
   Genera ogni partizione tracciando casualmente, con la sostituzione, N esempi dal set di addestramento, dove N \'e la dimensione del set di addestramento. 
-  Breiman (1994) \cite{breiman1994bagging} ha dimostrato che il bagging \'e efficace su algoritmi di apprendimento ``instabili'', come le reti neurali, in cui piccoli cambiamenti nel set di addestramento comportano grandi cambiamenti nelle previsioni. La riga inferiore della tabella \ref{NoKnowledgeTab}, ADDEMUP, contiene i risultati di una serie di ADDEMUP in cui la popolazione iniziale di 20 individui viene generata casualmente. 
-  I risultati mostrano che su questi domini la combinazione dell'output di pi\'u reti addestrate di generalizza meglio rispetto al tentativo di scegliere la rete singola rete migliore. 
+  La riga inferiore della tabella \ref{NoKnowledgeTab}, ADDEMUP, contiene i risultati di una serie di ADDEMUP in cui la popolazione iniziale di 20 individui viene generata casualmente. 
+  
+  I risultati mostrano che su questi dominii la combinazione dell'output di pi\'u reti addestrate di generalizza meglio rispetto al tentativo di scegliere la rete singola rete migliore. 
   Mentre la tabella \ref{NoKnowledgeTab} mostra la potenza degli insiemi di reti neurali, la tabella \ref{KnowledgeTab} mostra la capacit\'a di ADDEMUP di utilizzare le conoscenze a priori del problema. 
+  
+  \paragraph{descrizione esperimento in tabella \ref{KnowledgeTab}}
   La prima riga della tabella \ref{KnowledgeTab} contiene i risultati di generalizzazione dell'algoritmo KBANN, mentre la riga successica, KBANN-bagging, contiene i risultati dell'ensemble in cui ogni singola rete \'e la rete KBANN addestrata su una diversa partizione dell'insieme di addestramento. 
   Sebbene ciascuna di queste reti inizi con la stessa topologia e impostazione di peso iniziali ``grande'' (i pesi risultanti dalla conoscenza specifica del dominio), piccoli cambiamenti nel set di allenamento producono ancora cambiamenti significativi nelle previsioni. 
   Si noti inoltre che su tutti i set di dati, il bagging KBANN \'e migliore dell'esecuzione del bagging su reti generate casualmente (bagging della tabella \ref{NoKnowledgeTab}). 
   La riga successiva, REGENT-combined, contiene i risultati della semplice combinazione, usando l'equazione \ref{JudgeWeights}, degli output delle reti nella popolazione finale di REGENT. 
   ADDEMUP, l'ultima riga della tabella \ref{KnowledgeTab}, differisce principalmente da REGENT-combined in due modi: (1) la sua funzione di fitness (equazione \ref{fitness} ) tiene conto della diversit\'a piuttosto che della sola precisione della rete e (2) allena le nuove reti enfatizzando gli esempi errati dell'ensemble attuale. 
+  
   Pertanto, il confronto di ADDEMUP con REGENT-combined aiuta a testare direttamente la diversit\'a di ADDEMUP, anche se i risultati aggiuntivi riportati in Opitz \cite{opitz1995anytime} mostrano che ADDEMUP ottiene gran parte del suo miglioramento dalla sua funzione di fitness. 
+  
   Ci sono due ragioni principali per cui si ritiene che i risultati di ADDEMUP nella tabella \ref{KnowledgeTab} siano particolarmente incoraggianti: (1) confrontando ADDEMUP con REGENT-combined, \'e stata esplicitamente testata la qualit\'a dell'euristica e ne si dimostra l'efficacia e (2) ADDEMUP \'e in grado di utilizzare efficacemente le conoscenze di base per ridurre l'errore delle singole reti nel suo insieme, pur essendo in grado di creare abbastanza diversit\'a tra di loro in modo da migliorare la qualit\'a complessiva dell'ensemble. 
   
   \begin{table}[h]\caption{Tratto da \cite{opitz1994using}. Standard neural networks (no domain-specific knowledge used)} \label{NoKnowledgeTab}
@@ -1572,8 +1598,13 @@ Mentre per il caso complesso:
 
 
  \section{Funzione d'attivazione sticastica}
- La funzione d'attivazione gioca un ruolo fondamentale nel training delle rete neurali in quanto introduce la non linearit\'a indispensabile per poter approssimare una qualsiasi funzione. Tra le diverse descritte in precedenza ci concentriamo sulla ReLU, in particolare la funzione d'attivazione che sar\'a descritta prende in considerazione il valore ottenuto con la precedente e ci applica un rumore stocastico. In questo modo si riesce a prevenire meglio l'overfitting senza dover intervenire su quanto gi\'a appreso dalla rete durante il training. 
- Inizialmente si utilizzavano come funzione d'attivazione la sigmoide o la tangente iperbolica, in quanto continue, monotone e con condominio limitato. Il problema principale \'e dato dal fatto che le derivate tendono velocemente a valori molto piccoli, rallentando il processo di apprendimento. Per questo motivo la funzione ReLU \'e diventata particolarmente popolare e per comodit\'a la riprendiamo di seguito:
+ La funzione d'attivazione gioca un ruolo fondamentale nel training delle rete neurali in quanto introduce la non linearit\'a indispensabile per poter approssimare una qualsiasi funzione. 
+ Tra le diverse descritte in precedenza ci concentriamo sulla ReLU, in particolare la funzione d'attivazione che sar\'a descritta prende in considerazione il valore ottenuto con la precedente e ci applica un rumore stocastico. 
+ In questo modo si riesce a prevenire meglio l'overfitting senza dover intervenire su quanto gi\'a appreso dalla rete durante il training. 
+ 
+ Inizialmente si utilizzavano come funzione d'attivazione la sigmoide o la tangente iperbolica, in quanto continue, monotone e con condominio limitato. 
+ Il problema principale \'e dato dal fatto che le derivate tendono velocemente a valori molto piccoli, rallentando il processo di apprendimento. 
+ Per questo motivo la funzione ReLU \'e diventata particolarmente popolare e per comodit\'a la riprendiamo di seguito:
  \begin{equation} 
   ReLU\left(x\right) = max\left(x\right). 
  \end{equation} 
@@ -1585,9 +1616,14 @@ Mentre per il caso complesso:
  \end{cases} 
  \end{equation} 
 
- La ReLU risolve in parte il problema delle derivate, tuttavia si annulla per tutti i valori negativi producendo la "morte" del neurone. Per risolvere il problema sono state introdotte delle varianti della ReLU, come la Leaky ReLU\ref{LeakyReLU}. 
- L'idea di utilizzare una funzione di attivazione stocastica viene dal comportamento degli impulsi nervosi, i cui picchi sono disturbati da effetti bio-meccanici \cite{lewicki1998review}. La perturbazione indotta risulta essere particolarmente efficace nel prevenire l'overfitting durante il training. In particolare si introduce una nuova funzione d'attivazione il cui output produce una perturbazione stocastica; si propone poi un metodo per governare la perturbazione stocastica addestrando i parametri della distribuzione di probabilit\'a attraverso la back-propagation e viene mostrato come questa funzione d'attivazione aumenti le performance della rete, in particolare nell'ambito di "Visual object classification". 
- In figura \ref{ProbActEffectpng} visualizziamo i principali effetti dovuti all'applicazione di questa nuova funzione d'attivazione. 
+ La ReLU risolve in parte il problema delle derivate, tuttavia si annulla per tutti i valori negativi producendo la "morte" del neurone. 
+ Per risolvere il problema sono state introdotte delle varianti della ReLU, come la Leaky ReLU\ref{LeakyReLU}. 
+ 
+ L'idea di utilizzare una funzione di attivazione stocastica viene dal comportamento degli impulsi nervosi, i cui picchi sono disturbati da effetti bio-meccanici \cite{lewicki1998review}. 
+ La perturbazione indotta risulta essere particolarmente efficace nel prevenire l'overfitting durante il training. 
+ In particolare si introduce una nuova funzione d'attivazione il cui output produce una perturbazione stocastica; si propone poi un metodo per governare la perturbazione stocastica addestrando i parametri della distribuzione di probabilit\'a attraverso la back-propagation e viene mostrato come questa funzione d'attivazione aumenti le performance della rete, in particolare nell'ambito di "Visual object classification". 
+ 
+ In figura \ref{ProbActEffectpng} visualizziamo l'effetti dovuto all'applicazione di questa nuova funzione d'attivazione. 
  \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.6]{ProbActEffect.png} 
@@ -1599,7 +1635,9 @@ Mentre per il caso complesso:
  \begin{equation} 
   Y = f\left(w^{T} x\right), 
  \end{equation} 
- Dove $w^{T}$ indica il vettore dei pesi per quel layer, $x$ il vettore dell'input e $f$ la funzione d'attivazione, come pu\'o  essere la ReLU. Come mostrato in figura \ref{ProbActEffectpng} introduciamo una variabile randomica nella ReLU per creare una funzione d' attivazione stocastica. In particolare la si pu\'o definire come segue:
+ Dove $w^{T}$ indica il vettore dei pesi per quel layer, $x$ il vettore dell'input e $f$ la funzione d'attivazione, come pu\'o  essere la ReLU. 
+ Come mostrato in figura \ref{ProbActEffectpng} introduciamo una variabile randomica nella ReLU per creare una funzione d' attivazione stocastica. 
+ In particolare la si pu\'o definire come segue:
  \begin{equation} 
   f\left(x\right) = \mu \left(x\right) + z
  \end{equation} 
@@ -1607,8 +1645,8 @@ Mentre per il caso complesso:
  \begin{equation} 
   z = \sigma  \epsilon. 
  \end{equation} 
- Il parametro perturbato $\sigma$ pu\' o essere fisso o addestrabile e definisce il range della perturbazione stocastica ed $\epsilon$ \'e il valore ottenuto dalla distribuzione normale. Studiamo i casi in cui $\sigma$ sia fissa o addestrata. 
- Nel caso sia fissa, ci sono diversi modi per definirne il valore pi\'u adatto. Scegliere una $\sigma$ costante per tutti i valori \'e una opzione valida poich\'e $\epsilon$ \'e ottenuta randomicamente da una distribuzione normale e $\sigma$ funge da fattore di scala. La rete \'e ottimizzata usando l'apprendimento basato sul gradiente definito dal seguente teorema:
+ 
+ La rete \'e ottimizzata usando l'apprendimento basato sul gradiente definito dal seguente teorema \cite{lee2019probact}:
  \newtheorem{teorema}{Teorema}
  
  \begin{teorema} \label{GradienPropth}
@@ -1619,17 +1657,32 @@ Mentre per il caso complesso:
  \end{teorema}
 
 
- La natura di $z$ \'e gaussiana, in quanto $z = \sigma \epsilon$ ed $\epsilon$ \'e effettivamente una variabile gaussiana. Ci\'o garantisce l'apprendimento attraverso il metodo basato sul gradiente. Il vantaggio principale di fissare $\sigma$ \'e quello di non aumentare il numero di parametri da dover addestrare nel training. 
- Si pu\'o comunque scegliere di lasciare $\sigma$ come parametro in pi\'u da addestrare durante il training tramite back-propagation, assieme agli altri parametri. Il calcolo del gradiente per $\sigma$ si ottiene attraverso la regola della catena. Data la funzione $F$, il gradiente di $F$ rispetto a $\sigma_{l, i}$ della $i$-esima unit\'a del $l$-esimo layer, \'e dato da:
+ La natura di $z$ \'e gaussiana, in quanto $z = \sigma \epsilon$ ed $\epsilon$ \'e effettivamente una variabile gaussiana. 
+ Ci\'o garantisce l'apprendimento attraverso il metodo basato sul gradiente. 
+ 
+ Il parametro perturbato $\sigma$ pu\' o quindi essere fisso o addestrabile e definisce il range della perturbazione stocastica ed $\epsilon$ \'e il valore ottenuto dalla distribuzione normale. 
+ Il vantaggio principale di fissare $\sigma$ \'e quello di non aumentare il numero di parametri da dover addestrare nel training, per\'o bisogna trovare empiricamente il valore pi\'u corretto.
+ 
+ Si pu\'o comunque scegliere di lasciare $\sigma$ come parametro in pi\'u da addestrare durante il training tramite back-propagation, assieme agli altri parametri. 
+ Il calcolo del gradiente per $\sigma$ si ottiene attraverso la regola della catena. 
+ Data la funzione $F$, il gradiente di $F$ rispetto a $\sigma_{l, i}$ della $i$-esima unit\'a del $l$-esimo layer, \'e dato da:
  \begin{equation} 
   \frac{\partial F}{\partial\sigma_{l, i}} =  \frac{\partial F}{\partial y_{l, i}} \frac{\partial y_{l, i}}{\partial\sigma_{l, i}}
  \end{equation} 
- Con $y_{l, i}$ l'output dell'$i$-esima unit\'a del $l$-esimo layer. Il termine $\frac{\partial F}{\partial y_{l, i}}$ \'e il gradiente propagato dal layer pi\'u interno. Il gradiente dell' attivazione \'e dato da:
+ Con $y_{l, i}$ l'output dell'$i$-esima unit\'a del $l$-esimo layer. 
+ Il termine $\frac{\partial F}{\partial y_{l, i}}$ \'e il gradiente propagato dal layer pi\'u interno. 
+ Il gradiente dell' attivazione \'e dato da:
  \begin{equation} 
   \frac{\partial y_{l, i}}{\partial\sigma_{l, i}} = \epsilon
  \end{equation} 
 
- Addestrare $\sigma$ senza porre dei limiti pu\'o provocare l'annullamento o la divergenza del parametro perturbativo con conseguente difficolt\'a nel training. Sfruttando le propriet\'a della funzione sigmoide possiamo definire $\sigma = \alpha sigmoid(\beta k)$ per avere $\sigma$ confinata tra $0$ e $\alpha$. Con $k$ il parametro da imparare e $\alpha$ e $\beta$ parametri che posso essere tenuti fissi. Negli esperimenti descritti di seguito avremo $\alpha = 2$ e $\beta = 5$ (valori scelti dopo un test apposito). Figura \ref{ProbActEffectpng} illustra gli effetti della perturbazione stocastica. Intuitivamente, la funzione d'attivazione stocastica aggiunge perturbazioni ad ogni passaggio tra un layer e quello successivo in modo indipendente, funzionando cos\'i anche come regolarizzatore della rete. Bisogna ricordare che il rumore viene poi propagato in tutti i layer successivi, quindi il rumore totale aggiunto ad un certo layer dipende dal rumore applicato in precedenza, ma anche dai pesi. Ad esempio, anche nel caso pi\'u semplice in cui la rete abbia due layer con un ``neurone'' per ogni layer, la distribuzione dell'output $y_2$ del secondo layer differisce in base aai pesi del primo e secondo layer come segue:
+ Addestrare $\sigma$ senza porre dei limiti pu\'o provocare l'annullamento o la divergenza del parametro perturbativo con conseguente difficolt\'a nel training. 
+ Sfruttando le propriet\'a della funzione sigmoide possiamo definire $\sigma = \alpha sigmoid(\beta k)$ per avere $\sigma$ confinata tra $0$ e $\alpha$. 
+ Con $k$ il parametro da addestrare e $\alpha$ e $\beta$ parametri che posso essere tenuti fissi. 
+ Negli esperimenti descritti di seguito si avr\'a $\alpha = 2$ e $\beta = 5$ (valori scelti dopo un test apposito). 
+ Intuitivamente, la funzione d'attivazione stocastica aggiunge perturbazioni ad ogni passaggio tra un layer e quello successivo in modo indipendente, funzionando cos\'i anche come regolarizzatore della rete. 
+ Bisogna ricordare che il rumore viene poi propagato in tutti i layer successivi, quindi il rumore totale aggiunto ad un certo layer dipende dal rumore applicato in precedenza, ma anche dai pesi. 
+ Ad esempio, anche nel caso pi\'u semplice in cui la rete abbia due layer con un ``neurone'' per ogni layer, la distribuzione dell'output $y_2$ del secondo layer differisce in base ai pesi del primo e secondo layer come segue:
  \begin{align}
   y_2 &= \mu \left[ w_2\mu\left(w_1 x\right) + w_2\sigma_1\epsilon\right] + \sigma_2\epsilon\\
   &= 
@@ -1643,20 +1696,25 @@ Mentre per il caso complesso:
    N\left(0,\sigma_2^2\right).
   \end{cases}
  \end{align}
- Come mostrato in figura \ref{ProbActEffectpng}, tender\'a ad essere appresa una piccola varianza del rumore nello strato finale, per fare in modo che l'output della rete sia stabile. Utilizzando l'equazione del teorema \ref{GradienPropth} , consideriamo $g$ la funzione di introduzione del rumore nella rete, che dipende da $z$ e da alcune trasformazioni differenziabili $d$ sugli input $x$ e sui parametri interni del modello. Allora possiamo scrivere l'output $h$ come:
+ Utilizzando l'equazione del teorema \ref{GradienPropth} , consideriamo $g$ la funzione di introduzione del rumore nella rete, che dipende da $z$ e da alcune trasformazioni differenziabili $d$ sugli input $x$ e sui parametri interni del modello. 
+ Allora possiamo scrivere l'output $h$ come:
  \begin{equation}
   h = g(d,z) \label{outputh}
  \end{equation}
- Se utilizziamo l'equazione \ref{outputh} per altri metodi di aggiunta di rumore come il dropout \cite{cai2019effective}, si pu\'o dedurre $z$  come rumore moltiplicato subito dopo che la non linearit\'a \'e introdotta in un neurone. Nel caso descritto in questo documento, si campiona del rumore gaussiano e lo si aggiunge durante il calcolo di $h$. L'effetto della regolarizzazione \'e proporzionale alla varianza della distribuzione. Per evitare l'overfitting si pu\'o impostare un valore di varianza elevato.
+ Se utilizziamo l'equazione \ref{outputh} per altri metodi di aggiunta di rumore come il dropout \cite{cai2019effective}, si pu\'o dedurre $z$ come rumore moltiplicato subito dopo che la non linearit\'a \'e introdotta in un neurone. 
+ Nel caso descritto in questo documento, si campiona del rumore gaussiano e lo si aggiunge durante il calcolo di $h$. 
+ L'effetto della regolarizzazione \'e proporzionale alla varianza della distribuzione. 
+ Per evitare l'overfitting si pu\'o impostare un valore di varianza elevato.
  
- Valutiamo ora in alcuni esperimenti la funzione d'attivazione stocastica descritta in \cite{lee2019probact}, applicata alla classificazione di immagini. Mostriamo anche come tale funzione di attivazione lavori come regolarizzatore e come quindi pervenga l'overfitting. Descriviamo prima i dataset utilizzati e mostriamo di seguito i risultati:
+ Ripropongo ora alcuni esperimenti con la funzione d'attivazione stocastica descritta in \cite{lee2019probact}, applicata alla classificazione di immagini. 
+ Viene mostrato anche come tale funzione di attivazione lavori come regolarizzatore e come quindi pervenga l'overfitting. Descriviamo prima i dataset utilizzati e mostriamo di seguito i risultati:
  \begin{itemize}
   \item CIFAR-10 Dataset. 60000 immagini con 10 classi, 6000 immagini per classe e ogni immagine 32x32 pixel. 50000 immagini utilizzate per il training e 10000 per la convalida. 
   \item CIFAR-10 Dataset 100 classi e 600 immagini per classe. 500 immagini utilizzate per il training e le rimanenti per la convalida. La risoluzione anche per queste \'e di 32x32 pixel. 
   \item STL-10 Dataset. 500 immagini per ognuna delle 10 classi e 100 immagini tenute per il testing. Le immagini hanno una risoluzione di 96x96 pixel.
  \end{itemize}
  
- \begin{table}[h]\caption{Tratto da \cite{lee2019probact}. Confronto dell'accuratezza ottenuta dalla rete utilizzando diverse funzioni di attivazione. Il valore ottenuto \'e dato dalla media su tre set di test.}\label{ActFuncTestTab}
+ \begin{table}[h]\caption{Tratto da \cite{lee2019probact}. Confronto dell'accuratezza ottenuta dalla rete utilizzando diverse funzioni di attivazione. Il valore ottenuto \'e dato dalla media su tre set di test. La funzione ProbAct \'e la funzione d'attivazione stocastica.}\label{ActFuncTestTab}
    \centering
    \begin{tabular}[h]{|l|c|c|c|c|c|}
     \hline
@@ -1664,7 +1722,6 @@ Mentre per il caso complesso:
    ReLU & 86.67\% & 52.94\% & 60.80\% & \textbf{1.00 X ReLU} & \textbf{1.00 X ReLU} \\ 
    Leaky ReLU & 86.49\% & 49.44\% & 59.16\% & 1.04 X ReLU & 1.08 X ReLU \\
    PReLU & 86.35\% & 43.30\% & 60.01\% & 1.16 X ReLU & \textbf{1.00 X ReLU} \\
-   Swish & 86.55\% & 54.01\% & 63.50\% & 1.20 X ReLU & 1.13 X ReLU \\
    \hline
    ProbAct & & & & & \\
    \quad Fixed ($\sigma$ = 0.5) & 88.50\% & 56.85\% & 62.30\% & 1.09 X ReLU & 1.25 X ReLU \\
@@ -1678,8 +1735,12 @@ Mentre per il caso complesso:
    \end{tabular}
   \end{table}
   
-  Per valutare le performance del metodo proposto si confronta la funzione d' attivazione $ProbAct$ con: ReLU, LeakyReLU, PReLU, e Swosh\cite{ramachandran2017searching}. Si utilizza una rete a 16 layer Visual Geometry Group (VGG). Non vengono utilizzati metodi di regolarizzazione ulteriori o per-training o data augmentation. Gli input vengono normalizzati. Le immagini tratte da STL-10 sono state ridotte di soluzione per ottenere sempre immagini 32x32.
-  Nel caso di $\sigma$ wide-trainable e bounded sono stati ottenuti risultati superiori del 2.25\% su CIFAR-10, del 2.89\% su CIFAR-10 e del 3.37\% su STL-10, comparati con la ReLU. In aggiunta il metodo proposto risulta il migliore tra quelli confrontati.
+  Per valutare le performance del metodo proposto si confronta la funzione d' attivazione $ProbAct$ con: ReLU, LeakyReLU  PReLU. Si utilizza una rete a 16 layer Visual Geometry Group (VGG). 
+  Non vengono utilizzati metodi di regolarizzazione ulteriori. 
+  Gli input vengono normalizzati. 
+  Le immagini tratte da STL-10 sono state ridotte di risoluzione per ottenere sempre immagini 32x32.
+  Nel caso di $\sigma$ wide-trainable e bounded sono stati ottenuti risultati superiori del 2.25\% su CIFAR-10, del 2.89\% su CIFAR-10 e del 3.37\% su STL-10, comparati con la ReLU. 
+  In aggiunta il metodo proposto risulta il migliore tra quelli confrontati.
   In figura \ref{SigmaTrainingpng} \'e mostrato l' andamento del training di $\sigma$. 
   \begin{figure}[h!]
    \centering
@@ -1689,8 +1750,11 @@ Mentre per il caso complesso:
   \end{figure}
 
   
-  Il training \'e costituito da 400 epochs, ma non vengono mostrati i dati relativi alle epochs superiori a 200 in quanto non hanno contribuito significativamente al training. Infatti gi\'a dopo solo 100 epochs la $single$ $trainable$ $\sigma$ tende a 0. 
-  Figura \ref{kFreqDistrpng} mostra la distribuzione in frequenza dell' elemento $k$ dopo 400 epochs. Osserviamo due picchi per ogni distribuzione attraverso i 3 dataset.  
+  Il training \'e costituito da 400 epochs, ma non vengono mostrati i dati relativi alle epochs superiori a 200 in quanto non hanno contribuito significativamente al training. 
+  Infatti gi\'a dopo solo 100 epochs la $single$ $trainable$ $\sigma$ tende a 0. 
+  
+  Figura \ref{kFreqDistrpng} mostra la distribuzione in frequenza dell' elemento $k$ dopo 400 epochs. 
+  Si osserviamo due picchi per ogni distribuzione attraverso i 3 dataset.  
   \begin{figure}[h!]
    \centering
    \includegraphics[width=\linewidth]{kFreqDistr.png} 
@@ -1698,12 +1762,17 @@ Mentre per il caso complesso:
   \label{kFreqDistrpng}
   \end{figure}
   
-  Un elevato valore di $\sigma$ agisce come un regolarizzatore interno, migliorando la generalizzazione e prevenendo l'overfitting. Per definire il livello di overfitting di una rete utilizziamo un termine $\gamma$ che mostra la differenza di accuratezza tra training e test:
+  Un elevato valore di $\sigma$ agisce come un regolarizzatore interno, migliorando la generalizzazione e prevenendo l'overfitting. 
+  
+  Per definire il livello di overfitting di una rete utilizziamo un termine $\gamma$ che mostra la differenza di accuratezza tra training e test:
   \begin{equation}
    \gamma = TrainAccuracy(\%) - TestAccuracy(\%).
   \end{equation}
   
-  Se $\gamma$ \'e piccolo, la rete in seguito al training si \'e generalizzata bene anche al set di test. Se invece \'e grande, la rete ha imparato molto bene a classificare gli esempi del training, ma non riesce a classificare casi diversi da quelli gi\'a visti. In figura \ref{WithWithoutDropoutpng} si confrontano le abilit\'a di generalizzazione con e senza l'utlizzo di dropout per il dataset CIFAR-100. 
+  Se $\gamma$ \'e piccolo, la rete in seguito al training si \'e generalizzata bene anche al set di test. 
+  Se invece \'e grande, la rete ha imparato molto bene a classificare gli esempi del training, ma non riesce a classificare casi diversi da quelli gi\'a visti. 
+  
+  In figura \ref{WithWithoutDropoutpng} si confrontano le abilit\'a di generalizzazione con e senza l'utlizzo di dropout per il dataset CIFAR-100. 
   \begin{figure}[h!]
    \centering
    \includegraphics[width=\linewidth]{WithWithoutDropout.png} 
@@ -1712,8 +1781,15 @@ Mentre per il caso complesso:
   \end{figure} 
   
   
-  Il dropout viene applicato con una probabilit\'a del 0.5\%. La rete senza dropout e con funzione d'attivazione ReLU ha circa $\gamma = 48\%$, valore che non viene modificato di molto se introdotto il dropout. D'altra parte, fissato $\sigma = 1$ si raggiunge $\gamma = 43\%$ e con $\sigma = 2$ si abbassa ulteriormente a $\gamma = 39\%$, sempre senza utilizzare il dropout. Introducendo anche il dropout si ottiene $\gamma = 30\%$ con $\sigma = 1$.
-  Una funzione d'attivazione stocastica diventa particolarmente efficace nel caso in cui si abbia un dataset ridotto. Per confermare ci\'o sono stati confrontati i risultati di reti identiche, una con funzione d'attivazione ReLU e l'altra con funzione d'attivazione stocastica (ProbAct \cite{lee2019probact}), utilizzando solo una frazione dei dataset CIFAR-10 e CIFAR-100. I risultati ottenuti sono mostrati in tabella \ref{PartialDatasetTab}.
+  Il dropout viene applicato con una probabilit\'a del 0.5\%. 
+  La rete senza dropout e con funzione d'attivazione ReLU ha circa $\gamma = 48\%$, valore che non viene modificato di molto se introdotto il dropout. 
+  D'altra parte, fissato $\sigma = 1$ si raggiunge $\gamma = 43\%$ e con $\sigma = 2$ si abbassa ulteriormente a $\gamma = 39\%$, sempre senza utilizzare il dropout. 
+  Introducendo anche il dropout si ottiene $\gamma = 30\%$ con $\sigma = 1$.
+  
+  Una funzione d'attivazione stocastica diventa particolarmente efficace nel caso in cui si abbia un dataset ridotto. 
+  Per confermare ci\'o sono stati confrontati i risultati di reti identiche, una con funzione d'attivazione ReLU e l'altra con funzione d'attivazione stocastica (ProbAct \cite{lee2019probact}), utilizzando solo una frazione dei dataset CIFAR-10 e CIFAR-100. 
+  I risultati ottenuti sono mostrati in tabella \ref{PartialDatasetTab}.
+  
   \begin{table}[h]\caption{Tratto da \cite{lee2019probact}. Confronto dell'accuratezza del test tra ReLU e ProbAct su sottoinsiemi ridotti di CIFAR-10 e CIFAR-100 (50\% e 25\% del set di dati originale). L'accuratezza del test indicata \'e data dalla media su tre serie di test. Sono stati evidenziati i risultati migliori (tutti appartenenti a ProbAct).} \label{PartialDatasetTab}
    \centering
    \begin{tabular}[h]{|l|c|c|c|c|}
@@ -1724,23 +1800,36 @@ Mentre per il caso complesso:
    \end{tabular}
   \end{table}
  
-  
- Questa non \'e che una proposta di applicazione e in generale di studio di reti neurali a valori complessi nel campo del MRF. Le reti neurali presentano ancora margini di miglioramento ed in particolare quelle a valori complessi che fino a non molto tempo fa suscitavano scarso interesse per via delle difficolt\'a di calcolo per la back-propagation. Nel caso in cui effettivamente possano risultare un'alternativa concreta alle tecniche attuali, non solo si riuscirebbero a misurare pi\'u parametri MR contemporaneamente, ma si potrebbe avere un riscontro quasi immediato e di tipo quantitativo.
- 
  
  \chapter*{Applicazione delle reti neurali al problema del MRF}\label{MRIsection}
  
- Le reti neurali a valori complessi sembrano essere pi\'u performanti rispetto a quelle reali nel caso l'input da analizzare sia naturalmente esprimibile nel campo complesso \ref{CompR-Csection}. Per questo motivo si \'e scelto di studiare in parallelo ai possibili vantaggi e svantaggi della rete neurale a valori complessi, una possibile applicazione nel campo della risonanza magnetica, in particolare nel MRI fingerprinting.
+ Le reti neurali a valori complessi sembrano essere pi\'u performanti rispetto a quelle reali nel caso l'input da analizzare sia naturalmente esprimibile nel campo complesso \ref{CompR-Csection}. 
+ Per questo motivo si \'e scelto di studiare in parallelo ai possibili vantaggi e svantaggi della rete neurale a valori complessi, una possibile applicazione nel campo della risonanza magnetica, in particolare nel MRI fingerprinting.
  
  \section{MRF con reti neurali a valori reali}
  
- Recentemente il MRF \'e stato proposto come tecnica di imaging quantitativa per l'acquisizione simultanea di parametri tissutali come i tempi di rilassamento T1 e T2. Sebbene l'acquisizione sia altamente accelerata, la ricostruzione soffre di lunghi tempi di calcolo: i metodi di matching usati per trovare il segnale pi\'u simile a quello misurato devono confrontare quest'ultimo con un numero elevato di segnali simulati. Gli approcci di deep-learning possono superare questa limitazione, fornendo la mappatura diretta dal segnale misurato attraverso una rete neurale. 
+ Recentemente il MRF \'e stato proposto come tecnica di imaging quantitativa per l'acquisizione simultanea di parametri tissutali come i tempi di rilassamento $T_1$ e $T_2$. 
+ Sebbene l'acquisizione sia altamente accelerata, la ricostruzione soffre di lunghi tempi di calcolo: i metodi di matching usati per trovare il segnale pi\'u simile a quello misurato devono confrontare quest'ultimo con un numero elevato di segnali simulati. 
+ Gli approcci di deep-learning possono superare questa limitazione, fornendo la mappatura diretta del segnale misurato attraverso una rete neurale. 
  
- Per evitare errori o imprecisioni, il dizionario viene in genere calcolato con una granularit\'a fine su una gamma molto vasta di possibili valori dei tessuti. Le dimensioni del dizionario tuttavia, aumentano in modo esponenziale all'aumentare del numero di parametri tissutali, il che pu\'o rapidamente portare a dizionari proibitivi di grandi dimensioni, che richiedono ingenti risorse di elaborazione. Questo aumento della memoria, dell'archiviazione e dell'onere computazionale \'e un fattore limitante per l'adozione clinica dei metodi MRF. Ridurre la densit\'a del dizionario come proposto in precedenza, non \'e per\'o una soluzione convincente a questo problema perch\'e limita a priori l'accuratezza della ricostruzione, senza considerare ancora imprecisioni dovute a fattori sperimentali. 
+ Per evitare errori o imprecisioni, il dizionario viene in genere calcolato con una granularit\'a fine su una gamma molto vasta di possibili valori dei tessuti. 
+ Le dimensioni del dizionario tuttavia, aumentano in modo esponenziale all'aumentare del numero di parametri tissutali, il che pu\'o rapidamente portare a dizionari proibitivi di grandi dimensioni, che richiedono ingenti risorse di elaborazione. 
+ Questo aumento della memoria, dell'archiviazione e dell'onere computazionale \'e un fattore limitante per l'adozione clinica dei metodi MRF. 
  
- Il lavoro matematico nella teoria delle reti neurali e algoritmi di deep-learning ha dimostrato che qualsiasi funzione di Borel pu\'o essere rappresentata da una rete neurale con un numero finito di neuroni, che possono quindi offrire una rappresentazione compatta di funzioni complicate \cite{hornik1989multilayer}. Sfruttando questa propriet\'a si pu\'o cercare una rete neurale che sfrutti il dizionario come set di training e/o set di test e che vada a sostituire il lento processo di matching, infatti in termini di spazio di archiviazione sarebbe pi\'u compatta di un dizionario ed il processo di matching, una volta compiuto il training verrebbe drasticamente velocizzato.
+ Ridurre la densit\'a del dizionario come proposto in precedenza, non \'e per\'o una soluzione convincente a questo problema perch\'e limita a priori l'accuratezza della ricostruzione, senza considerare ancora imprecisioni dovute a fattori sperimentali. 
  
- Per verificare l'efficienza di questo modello, in \cite{cohen2018mr} viene definita una rete neurale con 4 layer (uno di input, 2 hidden layer e un layer di output) utilizzando il TensorFlow \cite{abadi2016tensorflow}. L'input consiste di 25 o 50 nodi e l'output da 2 nodi in quanto sono studiati solo il T1 e il T2. Ogni hidden layer \'e composto da 300 nodi. Le dimensioni della rete sono state selezionate empiricamente, cercando un buon compromesso tra il tempo di addestramento della rete, lo spazio di archiviazione e l'accuratezza delle ricostruzioni. Il tasso di apprendimento della rete \'e stato impostato come 0.001 e la funzione di costo \'e data dall'errore quadratico medio. Il training viene effettuato sfruttando un dizionario con circa 69000 esempi, mentre per la convalida \'e stato sfruttato il BrainWeb digital brain phantom insieme a simulazioni montecarlo, introducendo rumore  gaussiano. L'accuratezza della rete \'e comparabile a quella dei metodi tradizionali di MRF e in particolare \'e stato riscontrato una migliore efficienza in caso di rumore o undersampling.
+ Il lavoro matematico nella teoria delle reti neurali e algoritmi di deep-learning ha dimostrato che qualsiasi funzione di Borel pu\'o essere rappresentata da una rete neurale con un numero finito di neuroni, che possono quindi offrire una rappresentazione compatta di funzioni complicate \cite{hornik1989multilayer}. 
+ Sfruttando questa propriet\'a si pu\'o cercare una rete neurale che sfrutti il dizionario come set di training e/o set di test e che vada a sostituire il lento processo di matching. 
+ Infatti in termini di spazio di archiviazione sarebbe pi\'u compatta di un dizionario ed il processo di matching, una volta compiuto il training verrebbe drasticamente velocizzato.
+ 
+ Per verificare l'efficienza di questo modello, in \cite{cohen2018mr} viene definita una rete neurale con 4 layer (uno di input, 2 hidden layer e un layer di output) utilizzando il TensorFlow \cite{abadi2016tensorflow}. 
+ L'input consiste di 25 o 50 nodi e l'output da 2 nodi in quanto sono studiati solo il $T_1$ e il $T_2$. 
+ Ogni hidden layer \'e composto da 300 nodi. 
+ Le dimensioni della rete sono state selezionate empiricamente, cercando un buon compromesso tra il tempo di addestramento della rete, lo spazio di archiviazione e l'accuratezza delle ricostruzioni. 
+ Il tasso di apprendimento della rete \'e stato impostato come 0.001 e la funzione di costo \'e data dall'errore quadratico medio. 
+ Il training viene effettuato sfruttando un dizionario con circa 69000 esempi, mentre per la convalida \'e stato sfruttato il BrainWeb digital brain phantom insieme a simulazioni montecarlo, introducendo rumore  gaussiano. 
+ 
+ L'accuratezza della rete \'e comparabile a quella dei metodi tradizionali di MRF e in particolare \'e stato riscontrato una migliore efficienza in caso di rumore o undersampling.
  
  
  
@@ -1748,7 +1837,8 @@ Mentre per il caso complesso:
  
  Dati i risultati ottenuti con le reti neurali a valori reali (gi\'a promettenti) e i miglioramenti ottenuti dalle reti neurali a valori complessi nell'analisi di segnali ondulatori nei confronti delle reti a valori reali, propongo in questo documento l'applicazione di queste ultime al problema MRF.
  
- L'argomento \'e stato trattato anche in \cite{virtue2017better}, dove si comparano diversi metodi applicabili al fingerprinting. Riportiamo di seguito i metodi comparati ed i risultati ottenuti:
+ L'argomento \'e stato trattato anche in \cite{virtue2017better}, dove si comparano diversi metodi applicabili al fingerprinting. 
+ Riportiamo di seguito i metodi comparati ed i risultati ottenuti:
  \begin{itemize}
   \item prodotto scalare del segnale misurato con quello simulato del dizionario;
   \item rete neurale a 2 canali, che lavorano separatamente su parte reale e parte immaginaria del segnale;
@@ -1758,7 +1848,9 @@ Mentre per il caso complesso:
   \item rete neurale a valori complessi che utilizza la funzione d'attivazione siglog \cite{georgiou1992complex};
  \end{itemize}
 
- Come risultato in \cite{virtue2017better} si ottiene che le reti neurali in generale sono pi\'u efficaci nella predizione dei valori T1 e T2, mentre il prodotto scalare rimane il pi\'u accurato per quanto riguarda $\Delta\mbox{B}_0$. Nel confronto tra reti neurali a valori reali e reti a valori complessi, queste ultime sembrano performare meglio. In particolare nel caso di segnale pulito, la rete a valori complessi prevale in accuratezza sia su T1 che su T2, mentre prevale solo nell'accuratezza su T1 in caso di segnale con rumore.
+ Come risultato in \cite{virtue2017better} si ottiene che le reti neurali in generale sono pi\'u efficaci nella predizione dei valori $T_1$ e $T_2$, mentre il prodotto scalare rimane il pi\'u accurato per quanto riguarda $\Delta\mbox{B}_0$. 
+ Nel confronto tra reti neurali a valori reali e reti a valori complessi, queste ultime sembrano performare meglio. 
+ In particolare nel caso di segnale pulito, la rete a valori complessi prevale in accuratezza sia su $T_1$ che su $T_2$, mentre prevale solo nell'accuratezza su $T_1$ in caso di segnale con rumore.
 
  
  \chapter*{Conclusioni}
@@ -1766,7 +1858,7 @@ Mentre per il caso complesso:
  La risonanza magnetica si \'e dimostrata estremamente utile per la diagnosi, la prognosi e la valutazione terapeutica, ma ha lo svantaggio di essere lenta rispetto ad altri strumenti diagnostici. 
  Inoltre \'e generalmente qualitativa: il principale mezzo di informazione utilizzato per caratterizzare una patologia \'e il contrasto tra i tessuti.
  
- Si cerca di sopperire alla mancanza di misure oggettive attraverso il MRF, tecnica di risonanza magnetica quantitativa che presenta una notevole velocizzazione nell'acquisizione del segnale, con il vantaggio di ottenere da questo i valori di pi\'u di un parametro per volta, ma con lo svantaggio principale di spendere molto tempo nel matching tra segnale e dizionario.
+ Si cerca di sopperire alla mancanza di misure oggettive attraverso il MRF, tecnica di risonanza magnetica quantitativa che presenta una notevole velocizzazione nell'acquisizione del segnale, con il vantaggio di ottenere da questo i valori di pi\'u  parametri per volta, ma con lo svantaggio principale di spendere molto tempo nel matching tra segnale e dizionario.
  
  Le reti neurali sembrano essere una soluzione efficace: velocizzano i tempi di calcolo dei parametri da studiare e non necessitano della creazione del dizionario per ogni acquisizione perch\'e capaci di generalizzazione. 
  In particolare quelle a valori complessi sembrano essere maggiormente efficienti se l'input \'e di natura ondulatoria, proprio come nel caso della risonanza magnetica.
